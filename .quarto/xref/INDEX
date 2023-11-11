@@ -1,0 +1,20 @@
+{
+  "about.qmd": {
+    "about.html": "3ad573d4"
+  },
+  "index.qmd": {
+    "index.html": "b89812f1"
+  },
+  "posts/post-with-code/index.qmd": {
+    "index.html": "fc09bf0f"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "7964d76a"
+  },
+  "posts/data_analysis_for-thesis/Thesis tabels.qmd": {
+    "Thesis tabels.html": "dfc9df3f"
+  },
+  "posts/data_analysis_for-thesis/data_treatment_effect.qmd": {
+    "data_treatment_effect.html": "130bb9dc"
+  }
+}

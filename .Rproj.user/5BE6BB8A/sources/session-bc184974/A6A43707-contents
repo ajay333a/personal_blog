@@ -1,0 +1,113 @@
+
+
+library(shiny)
+library(shinythemes)
+library(tidyverse)
+library(bslib)
+library(shinydashboard)
+library(plotly)
+library(ggpubr)
+library(gt)
+
+#Load data ----
+ths_data <- read.csv("Thesisdata.csv")
+ths_data$Treatment <- as.factor(ths_data$Treatment)
+ths_data$Treatment <- 
+  factor(ths_data$Treatment,levels = c("Control",
+                                       "Coconut water", 
+                                       "IBA 1000ppm",
+                                       "IBA 100ppm + Coconut water"))
+
+# Define UI for application that draws a histogram
+ui <- fluidPage( theme = bs_theme(
+  base_font = font_google("Crimson Pro", local = TRUE)),
+      
+    # Application title
+    titlePanel("Thesis showcase"), # Page titel
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+          h1("Species"),
+            selectInput(inputId = "sps",
+                        label = "Select Species",
+                        choices = unique(ths_data$Species),
+                        selected = "Conidium verigatum")
+         
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotlyOutput("plot_nroots"),
+           plotlyOutput("plot_lng_roots"),
+           plotlyOutput("plot_dia_roots"),
+           tableOutput("tbl_traits")
+      )
+    )
+) #fluidpage
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  # Subset data
+  
+  selected_species <- reactive({
+    req(input$sps)
+    df <- ths_data |> dplyr::filter(Species %in% input$sps)|>
+    group_by(Treatment) |> 
+      summarise(avg_n_roots = mean(num_roots_n),
+                avg_lng_root = mean(lng_long_root_cm),
+                avg_dia_root = mean(dia_long_root_mm)
+                ) |> mutate(across(where(is.double), 
+                                   round,
+                                   digits = 2))
+  })
+
+    # Plot for number of roots
+    output$plot_nroots <- renderPlotly({
+      
+      avg_roots <- selected_species() |> ggplot(aes(Treatment, avg_n_roots, fill = Treatment))+
+        geom_col()+ theme_bw() +
+        theme(legend.position = "bottom") +
+        labs(x = "Treatments", y = "Average number of roots per leaf")
+      ggplotly(avg_roots) %>% layout(legend = list(orientation = "h",
+                                           x = 0, y = -0.20))
+          })
+    
+    # Plot for longest root
+    output$plot_lng_roots <- renderPlotly({
+         lng_root <- ggplot(selected_species(),
+             aes(Treatment, avg_lng_root, fill = Treatment)) +
+        geom_col() + theme_bw() +
+        theme(legend.position = "bottom") +
+        labs(x = "Treatments", y = "Average length of longest root of the leaf")
+        ggplotly(lng_root) %>% layout(legend = list(orientation = "h",
+                                                    x = 0, y = -0.20))  
+    })
+    
+    # Plot for longest root
+    output$plot_dia_roots <- renderPlotly({
+          dia_root <-  ggplot(selected_species(),
+             aes(Treatment, avg_dia_root, fill = Treatment)) +
+        geom_col()+ theme_bw() + 
+        theme(legend.position = "bottom") +
+        labs(x = "Treatments", y = "Average diameter of longest root of the leaf")
+      ggplotly(dia_root) %>% layout(legend = list(orientation = "h",
+                                                  x = 0, y = -0.20))
+    })
+    
+    #Table for Species
+    output$tbl_traits <- render_gt({
+      tbl_sps <- selected_species() %>% gt() %>%
+        cols_label(avg_n_roots = "Average number of roots",
+                   avg_lng_root = "Average length of longest root",
+                   avg_dia_root = "Average diameter of longest root") %>% 
+        tab_header(title = "Parameters of the selected species")
+      
+    })
+    
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
