@@ -1,0 +1,8 @@
+"0","ths_data |> filter(Treatment!= ""Control"") |> "
+"0","   ggplot(aes(x = lng_long_root_cm, y = dia_long_root_mm)) + "
+"0","  geom_point(aes(color = Treatment)) + "
+"0","  geom_smooth(method = ""lm"", aes(group = Treatment, color = Treatment)) +"
+"0","  labs(title = ""Plotting Root length Vs Root Diameter"","
+"0","       x = ""Length of the longest root"", "
+"0","       y = ""Diameter of the longest root"") +"
+"0","  theme(legend.position = ""bottom"")"

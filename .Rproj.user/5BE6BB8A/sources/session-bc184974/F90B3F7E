@@ -1,0 +1,31 @@
+{
+    "id": "F90B3F7E",
+    "path": "F:/r_language/quarto/blog/personal_blog/about.qmd",
+    "project_path": "about.qmd",
+    "type": "quarto_markdown",
+    "hash": "3346188860",
+    "contents": "",
+    "dirty": false,
+    "created": 1699684480185.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "0",
+        "rmdVisualCollapsedChunks": "",
+        "cursorPosition": "7,19",
+        "scrollLine": "0",
+        "rmdVisualModeLocation": "572:290.18182373046875"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1699711719,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1699711719541,
+    "read_only": false,
+    "read_only_alternatives": []
+}
