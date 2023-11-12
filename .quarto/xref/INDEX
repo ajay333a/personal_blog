@@ -3,7 +3,8 @@
     "about.html": "3ad573d4"
   },
   "index.qmd": {
-    "index.html": "b89812f1"
+    "index.html": "b89812f1",
+    "index.tex": "30d2930d"
   },
   "posts/post-with-code/index.qmd": {
     "index.html": "fc09bf0f"
@@ -15,6 +16,7 @@
     "Thesis tabels.html": "dfc9df3f"
   },
   "posts/data_analysis_for-thesis/data_treatment_effect.qmd": {
-    "data_treatment_effect.html": "130bb9dc"
+    "data_treatment_effect.html": "130bb9dc",
+    "data_treatment_effect.tex": "2831fa67"
   }
 }
