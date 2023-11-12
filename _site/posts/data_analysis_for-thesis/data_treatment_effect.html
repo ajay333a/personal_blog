@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -121,15 +121,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">Ajay Shankar A</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ajay333a" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/ajay-shankar-a-4b0b121a1/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ajay333a" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -239,14 +244,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>treatments_and_species <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">unique</span>(ths_data<span class="sc">$</span>Treatment), <span class="fu">unique</span>(ths_data<span class="sc">$</span>Species))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>treatments_and_species</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(treatments_and_species) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Treatment"</span>, <span class="st">"Species"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>treatments_and_species</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
+<pre><code>$Treatment
 [1] Control                    Coconut water             
 [3] IBA 1000ppm                IBA 100ppm + Coconut water
 Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 
-[[2]]
+$Species
 [1] Conidium verigatum    Rawolfia tetraphylla  Justicia Sps         
 [4] Zizupus rugosa        Jasminum Sps          Cyclea pelteta       
 [7] Bredelia scandens     Hemigraphis alternata
@@ -256,7 +262,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 </section>
 <section id="aggregating-data-and-formatting-the-results-into-a-table." class="level3">
 <h3 class="anchored" data-anchor-id="aggregating-data-and-formatting-the-results-into-a-table.">Aggregating data and formatting the results into a table.</h3>
-<p>The data is aggregated by the average of root lengths with standard deviation(SD)</p>
+<p>The data is aggregated in <a href="#tbl-aggregate-summary">Table&nbsp;1</a> by the average of root lengths with standard deviation(SD)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ths_data_1 <span class="ot">&lt;-</span> ths_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Species, Treatment) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_n_roots =</span> <span class="fu">mean</span>(num_roots_n),</span>
@@ -292,24 +298,25 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>ths_data_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div id="tbl-aggregate-summary" class="anchored">
 
-<div id="cgdwgyelfp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cgdwgyelfp table {
+<div id="chrsyztupq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#chrsyztupq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cgdwgyelfp thead, #cgdwgyelfp tbody, #cgdwgyelfp tfoot, #cgdwgyelfp tr, #cgdwgyelfp td, #cgdwgyelfp th {
+#chrsyztupq thead, #chrsyztupq tbody, #chrsyztupq tfoot, #chrsyztupq tr, #chrsyztupq td, #chrsyztupq th {
   border-style: none;
 }
 
-#cgdwgyelfp p {
+#chrsyztupq p {
   margin: 0;
   padding: 0;
 }
 
-#cgdwgyelfp .gt_table {
+#chrsyztupq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -335,12 +342,12 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-left-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_caption {
+#chrsyztupq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cgdwgyelfp .gt_title {
+#chrsyztupq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -352,7 +359,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-bottom-width: 0;
 }
 
-#cgdwgyelfp .gt_subtitle {
+#chrsyztupq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -364,7 +371,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-top-width: 0;
 }
 
-#cgdwgyelfp .gt_heading {
+#chrsyztupq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -376,13 +383,13 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-right-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_bottom_border {
+#chrsyztupq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_col_headings {
+#chrsyztupq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -397,7 +404,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-right-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_col_heading {
+#chrsyztupq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -417,7 +424,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   overflow-x: hidden;
 }
 
-#cgdwgyelfp .gt_column_spanner_outer {
+#chrsyztupq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -429,15 +436,15 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   padding-right: 4px;
 }
 
-#cgdwgyelfp .gt_column_spanner_outer:first-child {
+#chrsyztupq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cgdwgyelfp .gt_column_spanner_outer:last-child {
+#chrsyztupq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cgdwgyelfp .gt_column_spanner {
+#chrsyztupq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -449,11 +456,11 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   width: 100%;
 }
 
-#cgdwgyelfp .gt_spanner_row {
+#chrsyztupq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cgdwgyelfp .gt_group_heading {
+#chrsyztupq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -479,7 +486,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   text-align: left;
 }
 
-#cgdwgyelfp .gt_empty_group_heading {
+#chrsyztupq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -494,15 +501,15 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   vertical-align: middle;
 }
 
-#cgdwgyelfp .gt_from_md > :first-child {
+#chrsyztupq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cgdwgyelfp .gt_from_md > :last-child {
+#chrsyztupq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cgdwgyelfp .gt_row {
+#chrsyztupq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -521,7 +528,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   overflow-x: hidden;
 }
 
-#cgdwgyelfp .gt_stub {
+#chrsyztupq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -534,7 +541,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   padding-right: 5px;
 }
 
-#cgdwgyelfp .gt_stub_row_group {
+#chrsyztupq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -548,15 +555,15 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   vertical-align: top;
 }
 
-#cgdwgyelfp .gt_row_group_first td {
+#chrsyztupq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cgdwgyelfp .gt_row_group_first th {
+#chrsyztupq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cgdwgyelfp .gt_summary_row {
+#chrsyztupq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -566,16 +573,16 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   padding-right: 5px;
 }
 
-#cgdwgyelfp .gt_first_summary_row {
+#chrsyztupq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_first_summary_row.thick {
+#chrsyztupq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cgdwgyelfp .gt_last_summary_row {
+#chrsyztupq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -585,7 +592,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-bottom-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_grand_summary_row {
+#chrsyztupq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -595,7 +602,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   padding-right: 5px;
 }
 
-#cgdwgyelfp .gt_first_grand_summary_row {
+#chrsyztupq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -605,7 +612,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-top-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_last_grand_summary_row_top {
+#chrsyztupq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -615,11 +622,11 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-bottom-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_striped {
+#chrsyztupq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cgdwgyelfp .gt_table_body {
+#chrsyztupq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -628,7 +635,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-bottom-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_footnotes {
+#chrsyztupq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -642,7 +649,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-right-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_footnote {
+#chrsyztupq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -651,7 +658,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   padding-right: 5px;
 }
 
-#cgdwgyelfp .gt_sourcenotes {
+#chrsyztupq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -665,7 +672,7 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   border-right-color: #D3D3D3;
 }
 
-#cgdwgyelfp .gt_sourcenote {
+#chrsyztupq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -673,67 +680,68 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
   padding-right: 5px;
 }
 
-#cgdwgyelfp .gt_left {
+#chrsyztupq .gt_left {
   text-align: left;
 }
 
-#cgdwgyelfp .gt_center {
+#chrsyztupq .gt_center {
   text-align: center;
 }
 
-#cgdwgyelfp .gt_right {
+#chrsyztupq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cgdwgyelfp .gt_font_normal {
+#chrsyztupq .gt_font_normal {
   font-weight: normal;
 }
 
-#cgdwgyelfp .gt_font_bold {
+#chrsyztupq .gt_font_bold {
   font-weight: bold;
 }
 
-#cgdwgyelfp .gt_font_italic {
+#chrsyztupq .gt_font_italic {
   font-style: italic;
 }
 
-#cgdwgyelfp .gt_super {
+#chrsyztupq .gt_super {
   font-size: 65%;
 }
 
-#cgdwgyelfp .gt_footnote_marks {
+#chrsyztupq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cgdwgyelfp .gt_asterisk {
+#chrsyztupq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cgdwgyelfp .gt_indent_1 {
+#chrsyztupq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cgdwgyelfp .gt_indent_2 {
+#chrsyztupq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cgdwgyelfp .gt_indent_3 {
+#chrsyztupq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cgdwgyelfp .gt_indent_4 {
+#chrsyztupq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cgdwgyelfp .gt_indent_5 {
+#chrsyztupq .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" style="table-layout: fixed;; width: 0px" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table" style="table-layout: fixed;; width: 0px" data-quarto-disable-processing="false" data-quarto-bootstrap="false"><caption>Table&nbsp;1:  <p>Aggregating data and finding average of each parameter by species and
+treatment</p> </caption>
   <colgroup>
     <col style="width:150px;">
     <col style="width:150px;">
@@ -914,11 +922,12 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="plotting-the-data-for-better-understanding." class="level3">
 <h3 class="anchored" data-anchor-id="plotting-the-data-for-better-understanding.">Plotting the data for better understanding.</h3>
 <ul>
-<li>Plotting a bar graph to see how each treatment performed on each species.</li>
+<li>Plotting a bar graph <a href="#fig-treatment-effect">Figure&nbsp;1</a> to see how each treatment performed on each species.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ths_data <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">avg_n_roots =</span> <span class="fu">mean</span>(num_roots_n),</span>
@@ -938,7 +947,12 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="data_treatment_effect_files/figure-html/bar-graph-1.png" class="img-fluid" width="1440"></p>
+<div id="fig-treatment-effect" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="data_treatment_effect_files/figure-html/fig-treatment-effect-1.png" class="img-fluid figure-img" width="1440"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Influence of pytohormone treatments on leaves of different species</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <ul>
@@ -946,9 +960,9 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 <li><strong>IBA 1000ppm</strong> is clearly showing most promising results in most of the species in the graph.</li>
 </ul>
 </section>
-<section id="finding-corelation" class="level3">
-<h3 class="anchored" data-anchor-id="finding-corelation">Finding corelation</h3>
-<p>We are going to filter out the control treatment as it is not significant at producing roots at all.</p>
+<section id="finding-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="finding-correlation">Finding correlation</h3>
+<p>We are going to filter out the control treatment as it is not significant at producing roots at all and plot <a href="#fig-root_length_vs_root_dia-scatterplot">Figure&nbsp;2</a> to find which treatment has better correlation at producing roots with higher diameters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ths_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(Treatment<span class="sc">!=</span> <span class="st">"Control"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lng_long_root_cm, <span class="at">y =</span> dia_long_root_mm)) <span class="sc">+</span> </span>
@@ -962,7 +976,12 @@ Levels: Control Coconut water IBA 1000ppm IBA 100ppm + Coconut water
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="data_treatment_effect_files/figure-html/co-relation_plot-1.png" class="img-fluid" width="1500"></p>
+<div id="fig-root_length_vs_root_dia-scatterplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="data_treatment_effect_files/figure-html/fig-root_length_vs_root_dia-scatterplot-1.png" class="img-fluid figure-img" width="1500"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Plotting a scatter plot to find correlation between root lengths and diameters</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <ul>

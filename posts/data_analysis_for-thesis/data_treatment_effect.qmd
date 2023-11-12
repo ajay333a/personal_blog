@@ -31,7 +31,7 @@ library(gt)
 
 #### Loading the data and formatting
 
-The data is loaded as a dataframe and columns such as treatments(`Treatment`) and species(`Species`) are changes to factors as they are not suitable as strings.
+The data is loaded as a dataframe `thesisdata` and columns such as treatments(`Treatment`) and species(`Species`) are changes to factors as they are not suitable as strings.
 
 ```{r Loading data}
 # Loading data
@@ -55,14 +55,17 @@ ths_data %>% head()
 ```{r unique treatments and species}
 treatments_and_species <- list(unique(ths_data$Treatment), unique(ths_data$Species))
 
+names(treatments_and_species) <- c("Treatment", "Species")
 treatments_and_species
 ```
 
 ### Aggregating data and formatting the results into a table.
 
-The data is aggregated by the average of root lengths with standard deviation(SD)
+The data is aggregated in @tbl-aggregate-summary by the average of root lengths with standard deviation(SD)
 
 ```{r Summary_Table, warning=FALSE, message=FALSE}
+#| label: tbl-aggregate-summary
+#| tbl-cap: Aggregating data and finding average of each parameter by species and treatment
 
 ths_data_1 <- ths_data %>% group_by(Species, Treatment) %>% 
   summarise(avg_n_roots = mean(num_roots_n),
@@ -101,9 +104,11 @@ ths_data_1
 
 ### Plotting the data for better understanding.
 
--   Plotting a bar graph to see how each treatment performed on each species.
+-   Plotting a bar graph @fig-treatment-effect to see how each treatment performed on each species.
 
 ```{r bar-graph, fig.width=8, fig.height=5, dpi=180}
+#| label: fig-treatment-effect
+#| fig-cap: Influence of pytohormone treatments on leaves of different species
 
 ths_data |> summarise(avg_n_roots = mean(num_roots_n),
                       avg_lng_root = mean(lng_long_root_cm),
@@ -127,11 +132,15 @@ ths_data |> summarise(avg_n_roots = mean(num_roots_n),
 -   We can clearly see that *Control* treatment is not producing any roots in majority of the species.
 -   **IBA 1000ppm** is clearly showing most promising results in most of the species in the graph.
 
-### Finding corelation
+### Finding correlation
 
-We are going to filter out the control treatment as it is not significant at producing roots at all.
+We are going to filter out the control treatment as it is not significant at producing roots at all and plot @fig-root_length_vs_root_dia-scatterplot to find which treatment has better correlation at producing roots with higher diameters.
 
 ```{r co-relation_plot, fig.width=10, fig.height=6, dpi = 150}
+#| label: fig-root_length_vs_root_dia-scatterplot
+#| fig-cap: Plotting a scatter plot to find correlation between root lengths and diameters
+
+
 ths_data |> filter(Treatment!= "Control") |> 
    ggplot(aes(x = lng_long_root_cm, y = dia_long_root_mm)) + 
   geom_point(aes(color = Treatment)) + 
@@ -142,4 +151,4 @@ ths_data |> filter(Treatment!= "Control") |>
   theme(legend.position = "bottom")
 ```
 
--   The graph clearly shows that the `Coconut Water` treatment has the highest Slope.
+-   The graph clearly shows that the `Coconut Water` treatment has the highest slope but other treatments which produced higher root lengths did not have a correlation as that of `Coconut Water` treatment.
