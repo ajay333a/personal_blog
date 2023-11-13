@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Cyclist_data</h1>
+      <h1 class="title">CYCLIST BIKE SHARE</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">analysis</div>
                 <div class="quarto-category">code</div>
@@ -196,10 +196,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>The analysis is done on <strong>Cyclist Trip Data</strong> obtained from <em>Coursera Google Data Analytics</em> course as part of Cap Stone Project.</p>
 <p>The data contains month wise travel usage of bikes from the year of 2015-2023. We will be concentrating on data gathered in between <em>July-2022</em> to <em>June-2023</em> which will cover an entire year.</p>
+<p>Let’s load the required packages first</p>
 <ul>
-<li><p>Download the data from (<a href="https://divvy-tripdata.s3.amazonaws.com/index.html">Cyclist Trip Data</a>). Extract the zip folders and save them in a folder as <code>.csv</code> files.</p></li>
-<li><p>Let’s load the required packages first</p></li>
-<li><p>Loading <code>tidyverse</code> and <code>gt</code> packages</p></li>
+<li>Loading <code>tidyverse</code> and <code>gt</code> packages</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -372,9 +371,6 @@ $ member_casual      &lt;chr&gt; "member", "casual", "member", "member", "casual
 $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
 </div>
 </div>
-<ul>
-<li>A total of 7.0776064^{7} minutes were ridden by both casual and membership holders.</li>
-</ul>
 </section>
 </section>
 <section id="analysis-of-data" class="level2">
@@ -403,23 +399,23 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <div class="cell-output-display">
 <div id="tbl-avg_ride_legnth" class="anchored">
 
-<div id="xtyyvytntj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xtyyvytntj table {
+<div id="slodjrmtbw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#slodjrmtbw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xtyyvytntj thead, #xtyyvytntj tbody, #xtyyvytntj tfoot, #xtyyvytntj tr, #xtyyvytntj td, #xtyyvytntj th {
+#slodjrmtbw thead, #slodjrmtbw tbody, #slodjrmtbw tfoot, #slodjrmtbw tr, #slodjrmtbw td, #slodjrmtbw th {
   border-style: none;
 }
 
-#xtyyvytntj p {
+#slodjrmtbw p {
   margin: 0;
   padding: 0;
 }
 
-#xtyyvytntj .gt_table {
+#slodjrmtbw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -445,12 +441,12 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-left-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_caption {
+#slodjrmtbw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xtyyvytntj .gt_title {
+#slodjrmtbw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -462,7 +458,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-width: 0;
 }
 
-#xtyyvytntj .gt_subtitle {
+#slodjrmtbw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -474,7 +470,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-top-width: 0;
 }
 
-#xtyyvytntj .gt_heading {
+#slodjrmtbw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -486,13 +482,13 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_bottom_border {
+#slodjrmtbw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_col_headings {
+#slodjrmtbw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -507,7 +503,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_col_heading {
+#slodjrmtbw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -527,7 +523,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   overflow-x: hidden;
 }
 
-#xtyyvytntj .gt_column_spanner_outer {
+#slodjrmtbw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -539,15 +535,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 4px;
 }
 
-#xtyyvytntj .gt_column_spanner_outer:first-child {
+#slodjrmtbw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xtyyvytntj .gt_column_spanner_outer:last-child {
+#slodjrmtbw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xtyyvytntj .gt_column_spanner {
+#slodjrmtbw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -559,11 +555,11 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   width: 100%;
 }
 
-#xtyyvytntj .gt_spanner_row {
+#slodjrmtbw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xtyyvytntj .gt_group_heading {
+#slodjrmtbw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -589,7 +585,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   text-align: left;
 }
 
-#xtyyvytntj .gt_empty_group_heading {
+#slodjrmtbw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -604,15 +600,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   vertical-align: middle;
 }
 
-#xtyyvytntj .gt_from_md > :first-child {
+#slodjrmtbw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xtyyvytntj .gt_from_md > :last-child {
+#slodjrmtbw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xtyyvytntj .gt_row {
+#slodjrmtbw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -631,7 +627,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   overflow-x: hidden;
 }
 
-#xtyyvytntj .gt_stub {
+#slodjrmtbw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -644,7 +640,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#xtyyvytntj .gt_stub_row_group {
+#slodjrmtbw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -658,15 +654,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   vertical-align: top;
 }
 
-#xtyyvytntj .gt_row_group_first td {
+#slodjrmtbw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xtyyvytntj .gt_row_group_first th {
+#slodjrmtbw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xtyyvytntj .gt_summary_row {
+#slodjrmtbw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -676,16 +672,16 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#xtyyvytntj .gt_first_summary_row {
+#slodjrmtbw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_first_summary_row.thick {
+#slodjrmtbw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xtyyvytntj .gt_last_summary_row {
+#slodjrmtbw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -695,7 +691,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_grand_summary_row {
+#slodjrmtbw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -705,7 +701,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#xtyyvytntj .gt_first_grand_summary_row {
+#slodjrmtbw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -715,7 +711,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-top-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_last_grand_summary_row_top {
+#slodjrmtbw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -725,11 +721,11 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_striped {
+#slodjrmtbw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xtyyvytntj .gt_table_body {
+#slodjrmtbw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -738,7 +734,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_footnotes {
+#slodjrmtbw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -752,7 +748,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_footnote {
+#slodjrmtbw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -761,7 +757,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#xtyyvytntj .gt_sourcenotes {
+#slodjrmtbw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -775,7 +771,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#xtyyvytntj .gt_sourcenote {
+#slodjrmtbw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -783,63 +779,63 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#xtyyvytntj .gt_left {
+#slodjrmtbw .gt_left {
   text-align: left;
 }
 
-#xtyyvytntj .gt_center {
+#slodjrmtbw .gt_center {
   text-align: center;
 }
 
-#xtyyvytntj .gt_right {
+#slodjrmtbw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xtyyvytntj .gt_font_normal {
+#slodjrmtbw .gt_font_normal {
   font-weight: normal;
 }
 
-#xtyyvytntj .gt_font_bold {
+#slodjrmtbw .gt_font_bold {
   font-weight: bold;
 }
 
-#xtyyvytntj .gt_font_italic {
+#slodjrmtbw .gt_font_italic {
   font-style: italic;
 }
 
-#xtyyvytntj .gt_super {
+#slodjrmtbw .gt_super {
   font-size: 65%;
 }
 
-#xtyyvytntj .gt_footnote_marks {
+#slodjrmtbw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xtyyvytntj .gt_asterisk {
+#slodjrmtbw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xtyyvytntj .gt_indent_1 {
+#slodjrmtbw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xtyyvytntj .gt_indent_2 {
+#slodjrmtbw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xtyyvytntj .gt_indent_3 {
+#slodjrmtbw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xtyyvytntj .gt_indent_4 {
+#slodjrmtbw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xtyyvytntj .gt_indent_5 {
+#slodjrmtbw .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1133,6 +1129,14 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
 </div>
 <p><strong>Streeter Dr &amp; Grand Ave - Streeter Dr &amp; Grand Ave</strong> stands to be the most popular station with <strong>9698 rides</strong> by <strong>casual</strong> riders.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>most_travelled_routes_member <span class="ot">&lt;-</span> data_one_year  <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(member_casual <span class="sc">==</span> <span class="st">"member"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">total_ride_length =</span> <span class="fu">sum</span>(ride_length),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">ride_length =</span> <span class="fu">round</span>(<span class="fu">mean</span>(ride_length), <span class="dv">2</span>),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> stations_travelled) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(ride_count))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(most_travelled_routes_member)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   stations_travelled                    ride_count total_ride_length ride_length
@@ -1144,6 +1148,7 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
 5 State St &amp; 33rd St - Calumet Ave &amp; 3…       4156            18014.        4.33
 6 Calumet Ave &amp; 33rd St - State St &amp; 3…       4027            15887.        3.95</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">NROW</span>(most_travelled_routes_member)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 145104</code></pre>
 </div>
@@ -1153,39 +1158,39 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
 <li>Finding which station has most ride starting points and which station has most ending points.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>most_starting_points <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> start_station_name) <span class="sc">%&gt;%</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_station_name, ride_count) <span class="sc">%&gt;%</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(ride_count, <span class="at">n =</span> <span class="dv">10</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>most_starting_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>most_starting_points <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(start_station_name, end_station_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_station_name, ride_count) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(ride_count, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>most_starting_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 2
-   start_station_name                 ride_count
-   &lt;chr&gt;                                   &lt;int&gt;
- 1 Streeter Dr &amp; Grand Ave                 65892
- 2 DuSable Lake Shore Dr &amp; Monroe St       37939
- 3 Michigan Ave &amp; Oak St                   36036
- 4 DuSable Lake Shore Dr &amp; North Blvd      35091
- 5 Wells St &amp; Concord Ln                   33250
- 6 Clark St &amp; Elm St                       32751
- 7 Kingsbury St &amp; Kinzie St                31876
- 8 Millennium Park                         30917
- 9 Theater on the Lake                     29600
-10 Wells St &amp; Elm St                       28063</code></pre>
+   start_station_name                ride_count
+   &lt;chr&gt;                                  &lt;int&gt;
+ 1 Streeter Dr &amp; Grand Ave                11186
+ 2 Ellis Ave &amp; 60th St                     7423
+ 3 DuSable Lake Shore Dr &amp; Monroe St       7362
+ 4 Ellis Ave &amp; 60th St                     7181
+ 5 University Ave &amp; 57th St                6961
+ 6 Ellis Ave &amp; 55th St                     6728
+ 7 DuSable Lake Shore Dr &amp; Monroe St       5348
+ 8 Michigan Ave &amp; Oak St                   5329
+ 9 State St &amp; 33rd St                      4390
+10 Millennium Park                         4305</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>most_starting_points<span class="sc">$</span>ride_count <span class="sc">%&gt;%</span> <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>most_starting_points<span class="sc">$</span>ride_count <span class="sc">%&gt;%</span> <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 361415</code></pre>
+<pre><code>[1] 66213</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>most_ending_points <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> end_station_name) <span class="sc">%&gt;%</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(end_station_name, ride_count)  <span class="sc">%&gt;%</span> </span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(ride_count, <span class="at">n =</span> <span class="dv">10</span>)</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>most_ending_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>most_ending_points <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> end_station_name) <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(end_station_name, ride_count)  <span class="sc">%&gt;%</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(ride_count, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>most_ending_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 2
    end_station_name                   ride_count
@@ -1201,7 +1206,7 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
  9 Theater on the Lake                     30214
 10 Wells St &amp; Elm St                       28212</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>most_ending_points<span class="sc">$</span>ride_count <span class="sc">%&gt;%</span> <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>most_ending_points<span class="sc">$</span>ride_count <span class="sc">%&gt;%</span> <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 367013</code></pre>
 </div>
