@@ -18,5 +18,8 @@
   "posts/data_analysis_for-thesis/data_treatment_effect.qmd": {
     "data_treatment_effect.html": "130bb9dc",
     "data_treatment_effect.tex": "2831fa67"
+  },
+  "posts/cyclist_trip_analysis/divy_tripdata_202207_202306.qmd": {
+    "divy_tripdata_202207_202306.html": "79530378"
   }
 }
