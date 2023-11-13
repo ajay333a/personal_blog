@@ -1,0 +1,362 @@
+---
+title: "CYCLIST BIKE SHARE"
+author: "Ajay Shankar A"
+date: "2023-08-14"
+format: html
+code-fold: false
+categories: [analysis, code, EDA]
+---
+
+# CYCLIST BIKE SHARE
+
+## Introduction
+
+The analysis is done on **Cyclist Trip Data** obtained from *Coursera Google Data Analytics* course as part of Cap Stone Project.
+
+The data contains month wise travel usage of bikes from the year of 2015-2023. We will be concentrating on data gathered in between *July-2022* to *June-2023* which will cover an entire year.
+
+-   Download the data from ([Cyclist Trip Data](https://divvy-tripdata.s3.amazonaws.com/index.html)). Extract the zip folders and save them in a folder as `.csv` files.
+
+Let's load the required packages first
+
+-   Loading `tidyverse` and `gt` packages
+
+```{r loading packages}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(gt)
+```
+
+### Loading and Formatting Data
+
+-   Let's look at the structure of the data in one of the downloaded `.csv` files.
+
+```{r glancing data}
+
+trpdata_july_2022<-read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202207-divvy-tripdata/202207-divvy-tripdata.csv")
+
+glimpse(trpdata_july_2022)
+
+```
+
+-   Let's look at the columns and try to understand what they represent
+    -   `ride_id` is the unique identification token generated for each ride that was initiated.
+    -   `rideable_type` indicates the type of bike used for the ride.
+    -   `started_at` and `ended_at` give us the time when the ride began and the ride ended respectively.
+    -   `start_station_name` and `end_station_name` give us the names of stations where ride began and ended respectively.
+    -   `start_station_id` and `end_station_id` are unique ID's given to stations.
+    -   `start_lat` and `start_lng` represent co-ordinates where the ride began.
+    -   `end_lat` and `end_lng` represent co-ordinates where the ride stopped.
+    -   `member_casual` identifies if the rider is a member or casual rider of the bike.
+
+The `trpdata_july_2022` contains `r nrow(trpdata_july_2022)` rows and `r ncol(trpdata_july_2022)` columns. In the results we can see all the columns and their data types.
+
+-   **Lets load data of remaining 11 months.**
+
+```{r loading data}
+#| results: hide
+#| message: false
+
+trpdata_aug_2022 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202208-divvy-tripdata/202208-divvy-tripdata.csv")
+
+trpdata_sept_2022<- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202209-divvy-tripdata/202209-divvy-publictripdata.csv")
+
+trpdata_oct_2022<- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202210-divvy-tripdata/202210-divvy-tripdata_raw.csv")
+
+trpdata_nov_2022<- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202211-divvy-tripdata/202211-divvy-tripdata.csv")
+
+trpdata_dec_2022 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202212-divvy-tripdata/202212-divvy-tripdata.csv")
+
+trpdata_jan_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202301-divvy-tripdata/202301-divvy-tripdata.csv")
+
+trpdata_feb_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202302-divvy-tripdata/202302-divvy-tripdata.csv")
+
+trpdata_mar_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202303-divvy-tripdata/202303-divvy-tripdata.csv")
+
+trpdata_apr_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202304-divvy-tripdata/202304-divvy-tripdata.csv")
+
+trpdata_may_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202305-divvy-tripdata/202305-divvy-tripdata.csv")
+
+trpdata_june_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/202306-divvy-tripdata/202306-divvy-tripdata.csv")
+
+```
+
+As structure of `.csv`'s is same across the all the files lets combine all the `.csv` files into a single data frame which contains data of all 12 months.
+
+-   **Combining all the monthly data to one previous year data(`data_one_year`).**
+
+```{r combining data}
+data_one_year <- rbind(trpdata_july_2022, trpdata_aug_2022,
+                   trpdata_sept_2022, trpdata_oct_2022,
+                   trpdata_nov_2022, trpdata_dec_2022,
+                   trpdata_jan_2023, trpdata_feb_2023,
+                   trpdata_mar_2023, trpdata_apr_2023,
+                   trpdata_may_2023, trpdata_june_2023)
+
+glimpse(data_one_year)
+```
+
+-   `data_one_year` data frame contains data from July-2022 to June-2023.
+
+### Cleaning the data
+
+-   Checking and counting "NA" in each column of the data frame. Data is much better without "NA" as they can cause problems while aggregating data and calculating averages and sums.
+
+```{r na_count}
+na_in_cols <- data_one_year %>% map(is.na) %>% map(sum) %>% unlist()
+
+na_in_cols
+```
+
+-   As NA's are not present in the times columns i.e, `started_at` and `ended_at` we don't need to worry ourselves about writing `na.rm` during aggregation and manipulation of data.
+
+-   Finding the length of rides by making a new column `ride_length` in minutes and making sure that the `ride_length` is not negative by using `if_else` function. Eliminating stations where station names and longitude and latitude co-ordinates are not present.
+
+```{r finding ride length}
+data_one_year <- data_one_year %>% 
+  mutate(ride_length = difftime(ended_at, started_at,
+                                units = "min")) %>%
+  mutate(ride_length = as.numeric(ride_length)) %>% 
+  mutate(ride_length = if_else(ride_length < 0, 0, ride_length)) %>% 
+  filter(start_station_name != "" & end_station_name != "" & 
+         !is.na(start_lat) & !is.na(start_lng) &
+         !is.na(end_lat) & !is.na(end_lng)) %>% arrange(ride_length)
+
+
+glimpse(data_one_year)
+```
+
+
+
+## Analysis of Data
+
+### Aggregating data by Rider type and Bike type.
+
+-   Aggregating data to see **"Average minutes per ride"** grouped by "bike type" and "rider type" after removing rides less than 2 minutes (As rides less than 2 minutes tend to have the same start and stop stations.).
+
+```{r TB-Average minutes per ride}
+#| label: tbl-avg_ride_legnth
+#| tbl-cap: Average minutes per ride
+
+
+data_one_year_aggregate <- data_one_year%>% 
+  select(ride_id, rideable_type, member_casual, started_at, ended_at,
+         ride_length, everything()) %>%
+  filter(ride_length >= 2) %>% 
+  summarise("Number of Rides" = n(),
+            "Ride Length" = sum(ride_length, na.rm = TRUE),
+            "Max Ride Length" = round(max(ride_length), 2),
+            "Avg Ride Length in Minutes" = round(mean(ride_length), 2),
+            .by = c(member_casual, rideable_type)) %>% 
+  arrange(desc("Avg Ride Length in Minutes")) %>% 
+  gt() %>% tab_header(title = "Average length of Rides") %>% 
+  cols_label(member_casual = "Rider type",
+             rideable_type = "Bike type")
+
+data_one_year_aggregate
+```
+
+We can clearly notice in @tbl-avg_ride_legnth that **member** riders have more number of rides with both **classic and electric bikes** while the average ride length is higher with **casual** riders.
+
+-   Calculating and visualizing **Average ride length** by "Rider type".
+
+```{r Plot-Average ride length}
+#| label: fig-avg_ride_length
+#| fig-cap: Average Ride Length by Rider type and Member type
+
+average_ride_by_rideable_type <- data_one_year %>%
+  rename("Rider type" = member_casual, "Bike type" = rideable_type) %>% 
+  summarise(ride_length = sum(ride_length, na.rm = TRUE),
+            ride_count = n(),
+            avg_ride_length = ride_length/ride_count,
+            .by = c(`Rider type`, `Bike type`)) %>% 
+  ggplot(aes(`Rider type`, avg_ride_length)) + 
+  geom_col(aes(fill = `Bike type`), position = "dodge") + 
+  labs(x = "Bike type", y = "Avg Length of Ride(Minutes)",
+       title  = "Average ride length by Bike type") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 18),
+        legend.position = "bottom")
+
+average_ride_by_rideable_type
+```
+
+The above @fig-avg_ride_length clearly shows that members average ride lengths between bike types doesn't differ much for **member** riders but differs with **casual** riders upto **8 minutes**.
+
+::: {.highlight-box}
+Further down in the analysis "docked_bike" type is dropped as no proper documentation is available in the course.
+:::
+
+
+### Analysing data by Time of the year and Ride Length
+
+-   Calculating and visualizing ride patterns in a week for number of rides.
+
+```{r plot-Riding pattrens in weekdays, dpi=150}
+#| label: fig-Ride_patterns_in_weekdays
+#| fig-cap: Riding pattrens in Weekdays of each Month
+
+rideable_order <- c("classic_bike", "electric_bike", "docked_bike")
+
+rides_on_days <- data_one_year %>%
+  filter(rideable_type != "docked_bike") %>%
+  mutate(month = month(started_at, label = TRUE, abbr = FALSE)) %>% 
+  mutate(rideable_type = factor(rideable_type, levels = rideable_order)) %>% ggplot(aes(wday(started_at, label = TRUE, abbr = FALSE))) + 
+  geom_bar(aes(fill = member_casual), position = "dodge") +
+  facet_wrap(~month, nrow = 3) + 
+  labs(x = "Day of the Week", y = "Number of rides",
+       title = "Riding pattrens on Weekdays of each Month",
+       subtitle = "From July-2022 to June-2023",
+       fill = "Type of Rider") +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 18))
+
+rides_on_days
+```
+
+  The above @fig-Ride_patterns_in_weekdays clearly shows how the number of rides change due to seasons. In winters the number of rides decrease very drastically may be because of temperature and snow. In Summers the number of rides are at its peak.
+    
+  The number of rides driven by **member** riders are increases through the week especially in working week days but for casual riders the rides increase in the weekends. The @fig-Ride_patterns_in_weekdays shows number of rides on Saturdays and Sundays by casual members overtake membership riders in the months of July and August.
+
+-   Comparing variation in ride lengths of average and total ride lengths by bike type.
+
+
+Aggregating data for the visualization.
+
+```{r aggrigation for pattern analysis}
+
+rides_on_days <- data_one_year %>%
+  mutate(day = wday(started_at, label = TRUE, abbr = FALSE),
+         month = month(started_at, label = TRUE, abbr = FALSE)) %>% 
+  summarise(ride_count = n(),
+            sum_ride_length = sum(ride_length, na.rm = TRUE),
+            avg_ride_length = mean(ride_length, na.rm = TRUE),
+            .by = c(month, day, member_casual))
+
+rides_on_days
+```
+**Let's visualize the aggregated data** 
+
+```{r Riding pattrens in week days based on ride_length}
+#| label: fig-Riding_patterns_by_total_ride_length
+#| fig-cap: Total Ride lengths through out the year by member types. 
+
+rides_on_days_len <- rides_on_days %>%
+  ggplot(aes(day, sum_ride_length))+
+  geom_col(aes(fill = member_casual), position = "dodge")+
+  facet_wrap(~month, ncol = 3)+
+  labs(x = "Day of the Week", y = "Total Length of Rides (Minutes)",
+       title = "Total Minutes driven by Riders",
+       fill = "Type of Rider") +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 18))
+
+rides_on_days_len
+```
+
+```{r Riding pattrens in week days based on avg_ride_length}
+#| label: fig-Riding_patterns_by_avg_ride_length
+#| fig-cap: Average Ride lengths through out year by member types.
+
+rides_on_days_len_avg <- rides_on_days %>%
+  ggplot(aes(day, avg_ride_length))+
+  geom_col(aes(fill = member_casual), position = "dodge")+
+  facet_wrap(~month, ncol = 3) +
+  labs(x = "Day of the Week", y = "Average Length of Rides (Minutes)",
+       title = "Average Minutes driven by Riders",
+       fill = "Type of Rider") +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 18))
+
+rides_on_days_len_avg
+```
+
+The **ride length** is varying across months and seasons just as number of rides but **average ride length** is not fluctuating that much across the year.
+
+### Analysing of Stations and Routes.
+
+-   Removing "NA" and blanks from the stations columns.
+
+```{r Removing NA & blanks}
+data_one_year <- data_one_year %>%
+  drop_na(start_station_name, end_station_name ) %>% 
+  filter(start_station_name != "" & end_station_name != "",
+         started_at != ended_at) 
+
+glimpse(data_one_year)
+
+```
+
+-   Making a new column to identify travelled routes.
+
+```{r Creating travelled stations}
+data_one_year <- data_one_year %>% 
+  mutate(stations_travelled = paste(start_station_name, 
+                                     "-", end_station_name))
+
+glimpse(data_one_year)
+```
+
+-   Finding which route is  most traveled by **casual riders**.
+
+```{r most travelled routes by casuals}
+most_travelled_routes_casual <- data_one_year %>%
+  filter(member_casual == "casual") %>% 
+  summarise(ride_count = n(),
+            avg_ride_length = round(mean(ride_length), 2),
+            .by = c(stations_travelled)) %>%
+  arrange(desc(ride_count))
+
+head(most_travelled_routes_casual)
+NROW(most_travelled_routes_casual)
+```
+
+**Streeter Dr & Grand Ave - Streeter Dr & Grand Ave** stands to be the most popular station with **9698 rides** by **casual** riders.
+
+```{r most travelled route by members}
+
+most_travelled_routes_member <- data_one_year  %>%
+  filter(member_casual == "member") %>% 
+  summarise(ride_count = n(),
+            total_ride_length = sum(ride_length),
+            ride_length = round(mean(ride_length), 2),
+            .by = stations_travelled) %>% arrange(desc(ride_count))
+
+head(most_travelled_routes_member)
+NROW(most_travelled_routes_member)
+```
+
+**Ellis Ave & 60th St - University Ave & 57th St** stands as the most traveled route by **member** riders with **6153** rides per anum.
+
+-   Finding which station has most ride starting points and which station has most ending points.
+
+```{r staions with most starting and ending points}
+
+most_starting_points <- data_one_year %>% 
+  summarise(ride_count = n(),
+            .by = c(start_station_name, end_station_name)) %>%
+  select(start_station_name, ride_count) %>%
+  slice_max(ride_count, n = 10)
+
+most_starting_points
+
+
+most_starting_points$ride_count %>% sum()
+
+most_ending_points <- data_one_year %>% 
+  summarise(ride_count = n(),
+            .by = end_station_name) %>%
+  select(end_station_name, ride_count)  %>% 
+  slice_max(ride_count, n = 10)
+
+most_ending_points
+most_ending_points$ride_count %>% sum()
+```
+
+**Streeter Dr & Grand Ave** found to be the most popular station as most rides start and end at that station.
+

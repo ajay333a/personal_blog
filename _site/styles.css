@@ -1,1 +1,7 @@
 /* css styles */
+.highlight-box {
+  background-color: #a353b8; /* set your desired background color */
+  padding: 10px; /* add padding for better appearance */
+  border: 1px solid #e5e5e5; /* add a border */
+  border-radius: 5px; /* round the corners */
+}

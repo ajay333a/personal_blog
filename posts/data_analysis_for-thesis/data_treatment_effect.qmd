@@ -5,7 +5,7 @@ format: html
 editor: visual
 date: "2023-11-11"
 code-fold: false
-categories: [analysis, code] 
+categories: [analysis, code, EDA] 
 ---
 
 ## Effect of Treatments on leaves to produce roots
@@ -125,7 +125,8 @@ ths_data |> summarise(avg_n_roots = mean(num_roots_n),
   theme_bw() + labs(y = " ", fill = "Parameters",
                     title = "Effect of treatments on rooting") +
  theme(legend.position = "bottom",
-       axis.text.x = element_text(angle = 45, hjust = 1))
+       axis.text.x = element_text(angle = 45, hjust = 1),
+       plot.title = element_text(size = 18))
 
 ```
 
@@ -148,7 +149,8 @@ ths_data |> filter(Treatment!= "Control") |>
   labs(title = "Plotting Root length Vs Root Diameter",
        x = "Length of the longest root", 
        y = "Diameter of the longest root") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom",
+        plot.title = element_text(size = 18))
 ```
 
 -   The graph clearly shows that the `Coconut Water` treatment has the highest slope but other treatments which produced higher root lengths did not have a correlation as that of `Coconut Water` treatment.
