@@ -287,11 +287,11 @@ $ member_casual      &lt;chr&gt; "member", "casual", "casual", "casual", "member
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_one_year <span class="ot">&lt;-</span> <span class="fu">rbind</span>(trpdata_july_2022, trpdata_aug_2022,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                   trpdata_sept_2022, trpdata_oct_2022,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                   trpdata_nov_2022, trpdata_dec_2022,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                   trpdata_jan_2023, trpdata_feb_2023,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                   trpdata_mar_2023, trpdata_apr_2023,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                   trpdata_may_2023, trpdata_june_2023)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     trpdata_sept_2022, trpdata_oct_2022,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                     trpdata_nov_2022, trpdata_dec_2022,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                     trpdata_jan_2023, trpdata_feb_2023,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                     trpdata_mar_2023, trpdata_apr_2023,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                     trpdata_may_2023, trpdata_june_2023)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_one_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -341,17 +341,20 @@ start_station_name   start_station_id   end_station_name     end_station_id
 <li><p>Finding the length of rides by making a new column <code>ride_length</code> in minutes and making sure that the <code>ride_length</code> is not negative by using <code>if_else</code> function. Eliminating stations where station names and longitude and latitude co-ordinates are not present.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_one_year <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ride_length =</span> <span class="fu">difftime</span>(ended_at, started_at,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">units =</span> <span class="st">"min"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ride_length =</span> <span class="fu">as.numeric</span>(ride_length)) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ride_length =</span> <span class="fu">if_else</span>(ride_length <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, ride_length)) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_station_name <span class="sc">!=</span> <span class="st">""</span> <span class="sc">&amp;</span> end_station_name <span class="sc">!=</span> <span class="st">""</span> <span class="sc">&amp;</span> </span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(start_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(start_lng) <span class="sc">&amp;</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(end_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(end_lng)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(ride_length)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_one_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># As we remove all the NA's it is better to save data in a variable.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data_one_year_raw <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ride_length =</span> <span class="fu">difftime</span>(ended_at, started_at,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">units =</span> <span class="st">"min"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ride_length =</span> <span class="fu">as.numeric</span>(ride_length))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>data_one_year <span class="ot">&lt;-</span> data_one_year_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ride_length =</span> <span class="fu">if_else</span>(ride_length <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, ride_length)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_station_name <span class="sc">!=</span> <span class="st">""</span> <span class="sc">&amp;</span> end_station_name <span class="sc">!=</span> <span class="st">""</span> <span class="sc">&amp;</span> </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(start_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(start_lng) <span class="sc">&amp;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(end_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(end_lng)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(ride_length)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_one_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 4,409,335
 Columns: 14
@@ -381,7 +384,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <li>Aggregating data to see <strong>“Average minutes per ride”</strong> grouped by “bike type” and “rider type” after removing rides less than 2 minutes (As rides less than 2 minutes tend to have the same start and stop stations.).</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_one_year_aggregate <span class="ot">&lt;-</span> data_one_year<span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_one_year_aggregate <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ride_id, rideable_type, member_casual, started_at, ended_at,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         ride_length, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ride_length <span class="sc">&gt;=</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
@@ -399,23 +402,23 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <div class="cell-output-display">
 <div id="tbl-avg_ride_legnth" class="anchored">
 
-<div id="slodjrmtbw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#slodjrmtbw table {
+<div id="wfxnvwgary" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wfxnvwgary table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#slodjrmtbw thead, #slodjrmtbw tbody, #slodjrmtbw tfoot, #slodjrmtbw tr, #slodjrmtbw td, #slodjrmtbw th {
+#wfxnvwgary thead, #wfxnvwgary tbody, #wfxnvwgary tfoot, #wfxnvwgary tr, #wfxnvwgary td, #wfxnvwgary th {
   border-style: none;
 }
 
-#slodjrmtbw p {
+#wfxnvwgary p {
   margin: 0;
   padding: 0;
 }
 
-#slodjrmtbw .gt_table {
+#wfxnvwgary .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -441,12 +444,12 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-left-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_caption {
+#wfxnvwgary .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#slodjrmtbw .gt_title {
+#wfxnvwgary .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -458,7 +461,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-width: 0;
 }
 
-#slodjrmtbw .gt_subtitle {
+#wfxnvwgary .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -470,7 +473,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-top-width: 0;
 }
 
-#slodjrmtbw .gt_heading {
+#wfxnvwgary .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -482,13 +485,13 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_bottom_border {
+#wfxnvwgary .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_col_headings {
+#wfxnvwgary .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -503,7 +506,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_col_heading {
+#wfxnvwgary .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -523,7 +526,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   overflow-x: hidden;
 }
 
-#slodjrmtbw .gt_column_spanner_outer {
+#wfxnvwgary .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -535,15 +538,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 4px;
 }
 
-#slodjrmtbw .gt_column_spanner_outer:first-child {
+#wfxnvwgary .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#slodjrmtbw .gt_column_spanner_outer:last-child {
+#wfxnvwgary .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#slodjrmtbw .gt_column_spanner {
+#wfxnvwgary .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -555,11 +558,11 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   width: 100%;
 }
 
-#slodjrmtbw .gt_spanner_row {
+#wfxnvwgary .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#slodjrmtbw .gt_group_heading {
+#wfxnvwgary .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -585,7 +588,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   text-align: left;
 }
 
-#slodjrmtbw .gt_empty_group_heading {
+#wfxnvwgary .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -600,15 +603,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   vertical-align: middle;
 }
 
-#slodjrmtbw .gt_from_md > :first-child {
+#wfxnvwgary .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#slodjrmtbw .gt_from_md > :last-child {
+#wfxnvwgary .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#slodjrmtbw .gt_row {
+#wfxnvwgary .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -627,7 +630,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   overflow-x: hidden;
 }
 
-#slodjrmtbw .gt_stub {
+#wfxnvwgary .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -640,7 +643,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#slodjrmtbw .gt_stub_row_group {
+#wfxnvwgary .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -654,15 +657,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   vertical-align: top;
 }
 
-#slodjrmtbw .gt_row_group_first td {
+#wfxnvwgary .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#slodjrmtbw .gt_row_group_first th {
+#wfxnvwgary .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#slodjrmtbw .gt_summary_row {
+#wfxnvwgary .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -672,16 +675,16 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#slodjrmtbw .gt_first_summary_row {
+#wfxnvwgary .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_first_summary_row.thick {
+#wfxnvwgary .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#slodjrmtbw .gt_last_summary_row {
+#wfxnvwgary .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -691,7 +694,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_grand_summary_row {
+#wfxnvwgary .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -701,7 +704,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#slodjrmtbw .gt_first_grand_summary_row {
+#wfxnvwgary .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -711,7 +714,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-top-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_last_grand_summary_row_top {
+#wfxnvwgary .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -721,11 +724,11 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_striped {
+#wfxnvwgary .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#slodjrmtbw .gt_table_body {
+#wfxnvwgary .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -734,7 +737,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_footnotes {
+#wfxnvwgary .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -748,7 +751,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_footnote {
+#wfxnvwgary .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -757,7 +760,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#slodjrmtbw .gt_sourcenotes {
+#wfxnvwgary .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -771,7 +774,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#slodjrmtbw .gt_sourcenote {
+#wfxnvwgary .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -779,63 +782,63 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#slodjrmtbw .gt_left {
+#wfxnvwgary .gt_left {
   text-align: left;
 }
 
-#slodjrmtbw .gt_center {
+#wfxnvwgary .gt_center {
   text-align: center;
 }
 
-#slodjrmtbw .gt_right {
+#wfxnvwgary .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#slodjrmtbw .gt_font_normal {
+#wfxnvwgary .gt_font_normal {
   font-weight: normal;
 }
 
-#slodjrmtbw .gt_font_bold {
+#wfxnvwgary .gt_font_bold {
   font-weight: bold;
 }
 
-#slodjrmtbw .gt_font_italic {
+#wfxnvwgary .gt_font_italic {
   font-style: italic;
 }
 
-#slodjrmtbw .gt_super {
+#wfxnvwgary .gt_super {
   font-size: 65%;
 }
 
-#slodjrmtbw .gt_footnote_marks {
+#wfxnvwgary .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#slodjrmtbw .gt_asterisk {
+#wfxnvwgary .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#slodjrmtbw .gt_indent_1 {
+#wfxnvwgary .gt_indent_1 {
   text-indent: 5px;
 }
 
-#slodjrmtbw .gt_indent_2 {
+#wfxnvwgary .gt_indent_2 {
   text-indent: 10px;
 }
 
-#slodjrmtbw .gt_indent_3 {
+#wfxnvwgary .gt_indent_3 {
   text-indent: 15px;
 }
 
-#slodjrmtbw .gt_indent_4 {
+#wfxnvwgary .gt_indent_4 {
   text-indent: 20px;
 }
 
-#slodjrmtbw .gt_indent_5 {
+#wfxnvwgary .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -945,11 +948,12 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Riding pattrens on Weekdays of each Month"</span>,</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"From July-2022 to June-2023"</span>,</span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Type of Rider"</span>) <span class="sc">+</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>))</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>rides_on_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>))</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>rides_on_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-Ride_patterns_in_weekdays" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -1160,29 +1164,29 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>most_starting_points <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(start_station_name, end_station_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> start_station_name) <span class="sc">%&gt;%</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_station_name, ride_count) <span class="sc">%&gt;%</span></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(ride_count, <span class="at">n =</span> <span class="dv">10</span>)</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>most_starting_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 2
-   start_station_name                ride_count
-   &lt;chr&gt;                                  &lt;int&gt;
- 1 Streeter Dr &amp; Grand Ave                11186
- 2 Ellis Ave &amp; 60th St                     7423
- 3 DuSable Lake Shore Dr &amp; Monroe St       7362
- 4 Ellis Ave &amp; 60th St                     7181
- 5 University Ave &amp; 57th St                6961
- 6 Ellis Ave &amp; 55th St                     6728
- 7 DuSable Lake Shore Dr &amp; Monroe St       5348
- 8 Michigan Ave &amp; Oak St                   5329
- 9 State St &amp; 33rd St                      4390
-10 Millennium Park                         4305</code></pre>
+   start_station_name                 ride_count
+   &lt;chr&gt;                                   &lt;int&gt;
+ 1 Streeter Dr &amp; Grand Ave                 65892
+ 2 DuSable Lake Shore Dr &amp; Monroe St       37939
+ 3 Michigan Ave &amp; Oak St                   36036
+ 4 DuSable Lake Shore Dr &amp; North Blvd      35091
+ 5 Wells St &amp; Concord Ln                   33250
+ 6 Clark St &amp; Elm St                       32751
+ 7 Kingsbury St &amp; Kinzie St                31876
+ 8 Millennium Park                         30917
+ 9 Theater on the Lake                     29600
+10 Wells St &amp; Elm St                       28063</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>most_starting_points<span class="sc">$</span>ride_count <span class="sc">%&gt;%</span> <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 66213</code></pre>
+<pre><code>[1] 361415</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>most_ending_points <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
@@ -1212,6 +1216,129 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
 </div>
 </div>
 <p><strong>Streeter Dr &amp; Grand Ave</strong> found to be the most popular station as most rides start and end at that station.</p>
+</section>
+<section id="looking-at-filtered-data" class="level3">
+<h3 class="anchored" data-anchor-id="looking-at-filtered-data">Looking at Filtered data</h3>
+<p>Just because we filtered the data with NA’s that does not mean that the data is not helpful, it just means that it does not our fulfill specific need when calculating or manipulating data.</p>
+<p>Let’s look at NA’s in the data once again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>na_in_cols <span class="ot">&lt;-</span> data_one_year_raw <span class="sc">%&gt;%</span> <span class="fu">map</span>( <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.))) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>na_in_cols</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           ride_id      rideable_type         started_at           ended_at 
+                 0                  0                  0                  0 
+start_station_name   start_station_id   end_station_name     end_station_id 
+            857860             857992             915655             915796 
+         start_lat          start_lng            end_lat            end_lng 
+                 0                  0               5795               5795 
+     member_casual        ride_length 
+                 0                  0 </code></pre>
+</div>
+</div>
+<ul>
+<li>We can see that the <code>start_station_name</code> and <code>end_station_name</code> have majority of NA’s it means that rides are starting and ending where stations are not there.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>prop_na <span class="ot">&lt;-</span> na_in_cols[<span class="st">"start_station_name"</span>]<span class="sc">/</span><span class="fu">nrow</span>(data_one_year_raw)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>prop_na</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>start_station_name 
+          0.148433 </code></pre>
+</div>
+</div>
+<ul>
+<li>14.8432963% of data in <code>start_station_name</code> is missing and good thing is that none of the <code>start_lng</code> and <code>start_lat</code> have any NA’s and we can use this for find the most traveled routes.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data_na_one_year <span class="ot">&lt;-</span> data_one_year_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(start_station_name) <span class="sc">|</span> start_station_name <span class="sc">==</span> <span class="st">""</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(end_lat, end_lng)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_na_one_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 857,860
+Columns: 14
+$ ride_id            &lt;chr&gt; "DCB3D2C9B63999EC", "D1ACA8280DA02AE3", "EF98673429…
+$ rideable_type      &lt;chr&gt; "electric_bike", "electric_bike", "electric_bike", …
+$ started_at         &lt;dttm&gt; 2022-07-04 15:04:26, 2022-07-12 14:43:51, 2022-07-…
+$ ended_at           &lt;dttm&gt; 2022-07-04 15:32:38, 2022-07-12 14:49:28, 2022-07-…
+$ start_station_name &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ start_station_id   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ end_station_name   &lt;chr&gt; "Ashland Ave &amp; Blackhawk St", "Cornell Ave &amp; Hyde P…
+$ end_station_id     &lt;chr&gt; "13224", "KA1503000007", "KA1503000007", "847", "48…
+$ start_lat          &lt;dbl&gt; 41.95, 41.80, 41.80, 41.74, 42.02, 41.95, 41.95, 41…
+$ start_lng          &lt;dbl&gt; -87.64, -87.59, -87.59, -87.55, -87.69, -87.67, -87…
+$ end_lat            &lt;dbl&gt; 41.90707, 41.80241, 41.80241, 41.73000, 42.01000, 4…
+$ end_lng            &lt;dbl&gt; -87.66725, -87.58692, -87.58692, -87.55000, -87.690…
+$ member_casual      &lt;chr&gt; "member", "member", "member", "member", "member", "…
+$ ride_length        &lt;dbl&gt; 28.200000, 5.616667, 2.600000, 20.350000, 3.700000,…</code></pre>
+</div>
+</div>
+<ul>
+<li>Now let’s make new columns <code>start_point</code> with <code>start_lng</code> and <code>start_lat</code> and <code>end_point</code> with <code>end_lat</code> and <code>end_lng</code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>data_na_one_year <span class="ot">&lt;-</span> data_na_one_year <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">start_point =</span> <span class="fu">paste</span>(start_lat, start_lng),</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">end_point =</span> <span class="fu">paste</span>(end_lat, end_lng))</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_na_one_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 857,860
+Columns: 16
+$ ride_id            &lt;chr&gt; "DCB3D2C9B63999EC", "D1ACA8280DA02AE3", "EF98673429…
+$ rideable_type      &lt;chr&gt; "electric_bike", "electric_bike", "electric_bike", …
+$ started_at         &lt;dttm&gt; 2022-07-04 15:04:26, 2022-07-12 14:43:51, 2022-07-…
+$ ended_at           &lt;dttm&gt; 2022-07-04 15:32:38, 2022-07-12 14:49:28, 2022-07-…
+$ start_station_name &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ start_station_id   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ end_station_name   &lt;chr&gt; "Ashland Ave &amp; Blackhawk St", "Cornell Ave &amp; Hyde P…
+$ end_station_id     &lt;chr&gt; "13224", "KA1503000007", "KA1503000007", "847", "48…
+$ start_lat          &lt;dbl&gt; 41.95, 41.80, 41.80, 41.74, 42.02, 41.95, 41.95, 41…
+$ start_lng          &lt;dbl&gt; -87.64, -87.59, -87.59, -87.55, -87.69, -87.67, -87…
+$ end_lat            &lt;dbl&gt; 41.90707, 41.80241, 41.80241, 41.73000, 42.01000, 4…
+$ end_lng            &lt;dbl&gt; -87.66725, -87.58692, -87.58692, -87.55000, -87.690…
+$ member_casual      &lt;chr&gt; "member", "member", "member", "member", "member", "…
+$ ride_length        &lt;dbl&gt; 28.200000, 5.616667, 2.600000, 20.350000, 3.700000,…
+$ start_point        &lt;chr&gt; "41.95 -87.64", "41.8 -87.59", "41.8 -87.59", "41.7…
+$ end_point          &lt;chr&gt; "41.907066 -87.667252", "41.802406 -87.586924", "41…</code></pre>
+</div>
+</div>
+<ul>
+<li>Aggregating data to check for the most traveled routes without a <code>start_station</code> name.</li>
+</ul>
+<p>First join <code>start_point</code> and <code>end_point</code> to make <code>route_travelled</code> then count the rides by <code>routes_travelled</code> to see the most traveled path.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>most_travelled_na_routes <span class="ot">&lt;-</span> data_na_one_year <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_point <span class="sc">!=</span> end_point) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">route_travelled =</span> <span class="fu">paste</span>(start_point, <span class="st">","</span>, end_point)) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> route_travelled) <span class="sc">%&gt;%</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(ride_count, <span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>most_travelled_na_routes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   route_travelled                             ride_count
+   &lt;chr&gt;                                            &lt;int&gt;
+ 1 41.79 -87.6 , 41.8 -87.59                         1459
+ 2 41.79 -87.59 , 41.79 -87.6                        1354
+ 3 41.8 -87.59 , 41.79 -87.6                         1335
+ 4 41.79 -87.6 , 41.79 -87.59                        1320
+ 5 41.8 -87.6 , 41.79 -87.6                          1099
+ 6 41.79 -87.6 , 41.78509714636 -87.6010727606       1058
+ 7 41.79 -87.6 , 41.8 -87.6                           999
+ 8 41.79 -87.6 , 41.799568 -87.594747                 917
+ 9 41.79 -87.6 , 41.78 -87.6                          697
+10 41.89 -87.63 , 41.9 -87.63                         690</code></pre>
+</div>
+</div>
+<ul>
+<li><p><strong>1459</strong>rides are not small when compared to most traveled routes.</p></li>
+<li><p>To increase the memberships of the <strong>Cyclist Bike Share</strong> the company needs to place stations where most unknown routes are traveled by the riders.</p></li>
+</ul>
 
 
 </section>

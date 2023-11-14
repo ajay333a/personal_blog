@@ -2,9 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/cyclist_trip_analysis/divy_tripdata_202207_202306.html",
       "/posts/data_analysis_for-thesis/data_treatment_effect.html",
-      "/posts/welcome/index.html",
-      "/posts/cyclist_trip_analysis/divy_tripdata_202207_202306.html"
+      "/posts/welcome/index.html"
     ]
   }
 ]

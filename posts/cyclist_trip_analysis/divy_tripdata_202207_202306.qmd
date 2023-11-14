@@ -1,7 +1,7 @@
 ---
 title: "CYCLIST BIKE SHARE"
 author: "Ajay Shankar A"
-date: "2023-08-14"
+date: "2023-11-14"
 format: html
 code-fold: false
 categories: [analysis, code, EDA]
@@ -87,11 +87,11 @@ As structure of `.csv`'s is same across the all the files lets combine all the `
 
 ```{r combining data}
 data_one_year <- rbind(trpdata_july_2022, trpdata_aug_2022,
-                   trpdata_sept_2022, trpdata_oct_2022,
-                   trpdata_nov_2022, trpdata_dec_2022,
-                   trpdata_jan_2023, trpdata_feb_2023,
-                   trpdata_mar_2023, trpdata_apr_2023,
-                   trpdata_may_2023, trpdata_june_2023)
+                     trpdata_sept_2022, trpdata_oct_2022,
+                     trpdata_nov_2022, trpdata_dec_2022,
+                     trpdata_jan_2023, trpdata_feb_2023,
+                     trpdata_mar_2023, trpdata_apr_2023,
+                     trpdata_may_2023, trpdata_june_2023)
 
 glimpse(data_one_year)
 ```
@@ -113,10 +113,14 @@ na_in_cols
 -   Finding the length of rides by making a new column `ride_length` in minutes and making sure that the `ride_length` is not negative by using `if_else` function. Eliminating stations where station names and longitude and latitude co-ordinates are not present.
 
 ```{r finding ride length}
-data_one_year <- data_one_year %>% 
+
+# As we remove all the NA's it is better to save data in a variable.
+data_one_year_raw <- data_one_year %>% 
   mutate(ride_length = difftime(ended_at, started_at,
                                 units = "min")) %>%
-  mutate(ride_length = as.numeric(ride_length)) %>% 
+  mutate(ride_length = as.numeric(ride_length))
+
+data_one_year <- data_one_year_raw %>% 
   mutate(ride_length = if_else(ride_length < 0, 0, ride_length)) %>% 
   filter(start_station_name != "" & end_station_name != "" & 
          !is.na(start_lat) & !is.na(start_lng) &
@@ -137,7 +141,7 @@ glimpse(data_one_year)
 #| tbl-cap: Average minutes per ride
 
 
-data_one_year_aggregate <- data_one_year%>% 
+data_one_year_aggregate <- data_one_year %>% 
   select(ride_id, rideable_type, member_casual, started_at, ended_at,
          ride_length, everything()) %>%
   filter(ride_length >= 2) %>% 
@@ -205,6 +209,7 @@ rides_on_days <- data_one_year %>%
        title = "Riding pattrens on Weekdays of each Month",
        subtitle = "From July-2022 to June-2023",
        fill = "Type of Rider") +
+  theme_light() +
   theme(legend.position = "top",
         axis.text.x = element_text(angle = 45, hjust = 1),
         plot.title = element_text(size = 18))
@@ -334,7 +339,7 @@ NROW(most_travelled_routes_member)
 
 most_starting_points <- data_one_year %>% 
   summarise(ride_count = n(),
-            .by = c(start_station_name, end_station_name)) %>%
+            .by = start_station_name) %>%
   select(start_station_name, ride_count) %>%
   slice_max(ride_count, n = 10)
 
@@ -354,3 +359,67 @@ most_ending_points$ride_count %>% sum()
 ```
 
 **Streeter Dr & Grand Ave** found to be the most popular station as most rides start and end at that station.
+
+### Looking at Filtered data
+
+Just because we filtered the data with NA's that does not mean that the data is not helpful, it just means that it does not our fulfill specific need when calculating or manipulating data.
+
+Let's look at NA's in the data once again.
+
+```{r na_count_raw}
+na_in_cols <- data_one_year_raw %>% map( ~sum(is.na(.))) %>% unlist()
+
+na_in_cols
+```
+
+- We can see that the `start_station_name` and `end_station_name` have majority of NA's it means that rides are starting and ending where stations are not there.
+
+```{r prop_na_start_station}
+prop_na <- na_in_cols["start_station_name"]/nrow(data_one_year_raw)
+
+prop_na
+
+```
+
+-   `r prop_na*100`% of data in `start_station_name` is missing and good thing is that none of the `start_lng` and `start_lat` have any NA's and we can use this for find the most traveled routes.
+
+```{r na_data}
+data_na_one_year <- data_one_year_raw %>% 
+  filter(is.na(start_station_name) | start_station_name == "") %>% 
+  drop_na(end_lat, end_lng)
+  
+glimpse(data_na_one_year)
+```
+
+- Now let's make new columns `start_point` with `start_lng` and `start_lat` and `end_point` with `end_lat` and `end_lng`.
+
+```{r creating start and end point columns}
+data_na_one_year <- data_na_one_year %>%
+    mutate(start_point = paste(start_lat, start_lng),
+           end_point = paste(end_lat, end_lng))
+
+glimpse(data_na_one_year)
+```
+
+- Aggregating data to check for the most traveled routes without a `start_station` name.
+
+First join `start_point` and `end_point` to make `route_travelled` then count the rides by `routes_travelled` to see the most traveled path.
+
+```{r aggregating for most travelled routes}
+
+most_travelled_na_routes <- data_na_one_year %>%
+  filter(start_point != end_point) %>% 
+  mutate(route_travelled = paste(start_point, ",", end_point)) %>% 
+  summarise(ride_count = n(),
+            .by = route_travelled) %>%
+  slice_max(ride_count, n=10)
+
+most_travelled_na_routes
+
+```
+- **1459**rides are not small when compared to most traveled routes.
+
+- To increase the memberships of the **Cyclist Bike Share** the company needs to place stations where most unknown routes are traveled by the riders.
+
+
+
