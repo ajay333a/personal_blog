@@ -2,7 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/palmer_penguins_ml/palmer_penguins_ml.html",
+      "/posts/palmer_penguins_ml/palmerpenguins_ml.html",
       "/posts/cyclist_trip_analysis/divy_tripdata_202207_202306.html",
       "/posts/data_analysis_for-thesis/data_treatment_effect.html"
     ]

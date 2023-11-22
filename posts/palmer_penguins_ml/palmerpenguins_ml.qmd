@@ -3,6 +3,7 @@ title: "Palmer Penguins"
 author: "Ajay Shankar A"
 date: "2023-11-23"
 format: html
+editor: visual
 categories: [Machine Learning, EDA, code]
 ---
 
@@ -100,7 +101,7 @@ rf_spec
 
 ```
 
-Next let’s start putting together a tidymodels `workflow()`, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks. Notice that there is no model yet: `Model: None`.
+Next let's start putting together a tidymodels `workflow()`, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks. Notice that there is no model yet: `Model: None`.
 
 ```{r workflow}
 
@@ -125,6 +126,7 @@ glm_rs <- penguin_wf %>%
 glm_rs
 
 ```
+
 Second, we can fit the random forest model.
 
 ```{r rf_results}
@@ -141,7 +143,6 @@ rf_rs
 ```
 
 We have fit each of our candidate models to our resampled training set!
-
 
 ## Evaluate Model
 
@@ -161,6 +162,7 @@ Pretty nice! The function `collect_metrics()` extracts and formats the `.metrics
 collect_metrics(rf_rs)
 
 ```
+
 Let's choose *logistic model* as it is simpler.
 
 ```{r confusion_matrix}
@@ -184,7 +186,7 @@ glm_rs %>%
 
 ```
 
-It is finally time for us to return to the testing set. Notice that we have not used the testing set yet during this whole analysis; the testing set is precious and can only be used to estimate performance on new data. Let’s fit one more time to the training data and evaluate on the testing data using the function `last_fit()`.
+It is finally time for us to return to the testing set. Notice that we have not used the testing set yet during this whole analysis; the testing set is precious and can only be used to estimate performance on new data. Let's fit one more time to the training data and evaluate on the testing data using the function `last_fit()`.
 
 ```{r fitting_model}
 penguin_final <- penguin_wf %>%
@@ -208,8 +210,8 @@ penguin_final$.workflow[[1]] %>%
   tidy(exponentiate = TRUE)
 ```
 
--   The largest odds ratio is for bill depth, with the second largest for bill length. An increase of 1 mm in bill depth corresponds to almost 4x higher odds of being male. The characteristics of a penguin’s bill must be associated with their sex.
--   We don’t have strong evidence that flipper length is different between male and female penguins, controlling for the other measures; maybe we should explore that by changing that first plot!
+-   The largest odds ratio is for bill depth, with the second largest for bill length. An increase of 1 mm in bill depth corresponds to almost 4x higher odds of being male. The characteristics of a penguin's bill must be associated with their sex.
+-   We don't have strong evidence that flipper length is different between male and female penguins, controlling for the other measures; maybe we should explore that by changing that first plot!
 
 ```{r eda_final}
 
@@ -221,4 +223,5 @@ penguins %>% filter(!is.na(sex)) %>%
   theme_minimal()
 
 ```
+
 This graph shows much more separation between male and female penguins.
