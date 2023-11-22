@@ -372,7 +372,7 @@ na_in_cols <- data_one_year_raw %>% map( ~sum(is.na(.))) %>% unlist()
 na_in_cols
 ```
 
-- We can see that the `start_station_name` and `end_station_name` have majority of NA's it means that rides are starting and ending where stations are not there.
+-   We can see that the `start_station_name` and `end_station_name` have majority of NA's it means that rides are starting and ending where stations are not there.
 
 ```{r prop_na_start_station}
 prop_na <- na_in_cols["start_station_name"]/nrow(data_one_year_raw)
@@ -391,7 +391,7 @@ data_na_one_year <- data_one_year_raw %>%
 glimpse(data_na_one_year)
 ```
 
-- Now let's make new columns `start_point` with `start_lng` and `start_lat` and `end_point` with `end_lat` and `end_lng`.
+-   Now let's make new columns `start_point` with `start_lng` and `start_lat` and `end_point` with `end_lat` and `end_lng`.
 
 ```{r creating start and end point columns}
 data_na_one_year <- data_na_one_year %>%
@@ -401,7 +401,7 @@ data_na_one_year <- data_na_one_year %>%
 glimpse(data_na_one_year)
 ```
 
-- Aggregating data to check for the most traveled routes without a `start_station` name.
+-   Aggregating data to check for the most traveled routes without a `start_station` name.
 
 First join `start_point` and `end_point` to make `route_travelled` then count the rides by `routes_travelled` to see the most traveled path.
 
@@ -417,9 +417,7 @@ most_travelled_na_routes <- data_na_one_year %>%
 most_travelled_na_routes
 
 ```
-- **1459**rides are not small when compared to most traveled routes.
 
-- To increase the memberships of the **Cyclist Bike Share** the company needs to place stations where most unknown routes are traveled by the riders.
+-   **1459**rides are not small when compared to most traveled routes.
 
-
-
+-   To increase the memberships of the **Cyclist Bike Share** the company needs to place stations where most unknown routes are traveled by the riders.
