@@ -4,7 +4,7 @@ listing:
   contents: posts
   sort: "date desc"
   type: default
-  categories: cloud
+  categories: numbered
   sort-ui: false
   filter-ui: false
 format: html
@@ -13,3 +13,7 @@ title-block-banner: true
 ---
 
 This is a blog for projects completed successfully by me with R-programming language. This blog will include projects from basic "Exploratory Data Analysis(EDA)" to complex "Machine Learning(ML)" projects.
+
+<div>
+
+</div>

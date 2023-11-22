@@ -1,0 +1,227 @@
+---
+title: "Palmer Penguins"
+author: "Ajay Shankar A"
+date: "2023-11-23"
+format: html
+editor: visual
+categories: [Machine Learning, EDA, code]
+---
+
+```{r setup}
+#| echo: false
+
+library(knitr)
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 200,
+                  fig.width = 8, fig.height = 5)
+```
+
+Building a model to predict the sex of three species of penguins of **Palmer Penguins** data.
+
+::: disclaimer-box
+This is my first Machine Learning project and I am still learning as of this date. This work is inspired by **Julia Silge** and you can find the original work by her in her [blog](https://juliasilge.com/blog/palmer-penguins/) and would like to thank her for the teachings in [Youtube channel](https://www.youtube.com/@JuliaSilge)
+:::
+
+## Exploring the data
+
+```{r loading libraries and packages}
+#| warning: false
+
+library(tidyverse)
+
+library(palmerpenguins)
+
+penguins
+```
+
+The data set is from *palmerpenguins* library which contains observations of Antarctic pebguins from the Palmer Archipelago. You can read more about how this dataset came to be in [this post on the RStudio Education blog](https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/). Our modeling goal here is to predict [the sex of the penguins](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-07-28/readme.md) using a classification model, based on other observations in the dataset.
+
+It is easier to classify and predict species than the sex of the species as the different physical characteristics are what makes a species different from each other. But sex somewhat harder to predict.
+
+```{r eda_data}
+penguins %>% filter(!is.na(sex)) %>% 
+  ggplot(aes(flipper_length_mm, bill_length_mm, color = sex,
+             size = body_mass_g)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species) +
+  theme_minimal()
+
+```
+
+From the above graph it looks like female penguins have smaller with differet bills. Now let's build a model but first remove `year` and `island` from the model.
+
+```{r data_preparation}
+penguins_df <- penguins %>% filter(!is.na(sex)) %>% select(-year, -island)
+
+penguins_df
+```
+
+## BUilding a Model
+
+Let's start by loading the `tidymodels` package and splitting our data into training and testing sets.
+
+```{r loading ML packages}
+
+library(tidymodels)
+set.seed(123)
+
+penguin_split <- initial_split(penguins_df, strata = sex)
+
+penguins_train <- training(penguin_split)
+penguins_test <- testing(penguin_split)
+
+```
+
+As data for building a model is not that large, let's create resamples of training data to evaluate the model.
+
+```{r training_resamples}
+
+set.seed(123)
+penguin_boot <- bootstraps(penguins_train)
+
+penguin_boot
+
+```
+
+Let's build and compare two different models, a *logistic regression* model and a *random forest* model.
+
+```{r glm_model}
+# logistic regression model
+glm_spec <- logistic_reg() %>%
+  set_engine("glm")
+
+glm_spec
+
+# random forest model
+
+rf_spec <- rand_forest() %>%
+  set_mode("classification") %>% 
+  set_engine("ranger")
+
+rf_spec
+
+```
+
+Next let's start putting together a tidymodels `workflow()`, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks. Notice that there is no model yet: `Model: None`.
+
+```{r workflow}
+
+penguin_wf <- workflow() %>% 
+  add_formula(sex ~ .)
+
+penguin_wf
+
+```
+
+Now we canadd a model and fit the model to each of the resamples. First, we can fit the logistic regression model
+
+```{r glm_results}
+
+glm_rs <- penguin_wf %>%
+  add_model(glm_spec) %>%
+  fit_resamples(
+    resamples = penguin_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+glm_rs
+
+```
+
+Second, we can fit the random forest model.
+
+```{r rf_results}
+
+rf_rs <- penguin_wf %>%
+  add_model(rf_spec) %>%
+  fit_resamples(
+    resamples = penguin_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+rf_rs
+
+```
+
+We have fit each of our candidate models to our resampled training set!
+
+## Evaluate Model
+
+Now let's check the results and how well they performed.
+
+```{r glm_metrics}
+
+collect_metrics(glm_rs)
+collect_notes(glm_rs)
+
+```
+
+Pretty nice! The function `collect_metrics()` extracts and formats the `.metrics` column from resampling results like the ones we have here.
+
+```{r rf_metrics}
+
+collect_metrics(rf_rs)
+
+```
+
+Let's choose *logistic model* as it is simpler.
+
+```{r confusion_matrix}
+
+glm_rs %>% conf_mat_resampled()
+
+```
+
+About the same, which is good. We can also make an ROC curve.
+
+```{r roc_curve}
+
+glm_rs %>%
+  collect_predictions() %>%
+  group_by(id) %>%
+  roc_curve(sex, .pred_female) %>%
+  ggplot(aes(1 - specificity, sensitivity, color = id)) +
+  geom_abline(lty = 2, color = "gray80", size = 1.5) +
+  geom_path(show.legend = FALSE, alpha = 0.6, size = 1.2) +
+  coord_equal()
+
+```
+
+It is finally time for us to return to the testing set. Notice that we have not used the testing set yet during this whole analysis; the testing set is precious and can only be used to estimate performance on new data. Let's fit one more time to the training data and evaluate on the testing data using the function `last_fit()`.
+
+```{r fitting_model}
+penguin_final <- penguin_wf %>%
+  add_model(glm_spec) %>%
+  last_fit(penguin_split)
+
+penguin_final
+```
+
+The metrics and predictions here are on the testing data.
+
+```{r eval_fit}
+collect_metrics(penguin_final)
+
+collect_predictions(penguin_final) %>%
+  conf_mat(sex, .pred_class)
+```
+
+```{r work_flow}
+penguin_final$.workflow[[1]] %>%
+  tidy(exponentiate = TRUE)
+```
+
+-   The largest odds ratio is for bill depth, with the second largest for bill length. An increase of 1 mm in bill depth corresponds to almost 4x higher odds of being male. The characteristics of a penguin's bill must be associated with their sex.
+-   We don't have strong evidence that flipper length is different between male and female penguins, controlling for the other measures; maybe we should explore that by changing that first plot!
+
+```{r eda_final}
+
+penguins %>% filter(!is.na(sex)) %>% 
+  ggplot(aes(bill_depth_mm, bill_length_mm, color = sex,
+             size = body_mass_g)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species) +
+  theme_minimal()
+
+```
+
+This graph shows much more separation between male and female penguins.

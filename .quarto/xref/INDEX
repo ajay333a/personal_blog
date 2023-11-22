@@ -21,5 +21,11 @@
   },
   "posts/cyclist_trip_analysis/divy_tripdata_202207_202306.qmd": {
     "divy_tripdata_202207_202306.html": "79530378"
+  },
+  "posts/palmer_penguins_ml/palmer_penguins_ml.qmd": {
+    "palmer_penguins_ml.html": "a04a14ce"
+  },
+  "posts/palmer_penguins_ml/palmerpenguins_ml.qmd": {
+    "palmerpenguins_ml.html": "24b6ca93"
   }
 }
