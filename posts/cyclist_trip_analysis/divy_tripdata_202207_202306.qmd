@@ -4,7 +4,7 @@ author: "Ajay Shankar A"
 date: "2023-11-14"
 format: html
 code-fold: false
-categories: [analysis, code, EDA]
+categories: [Analysis, Code, EDA]
 ---
 
 # CYCLIST BIKE SHARE

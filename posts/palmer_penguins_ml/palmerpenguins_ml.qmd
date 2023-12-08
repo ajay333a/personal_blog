@@ -1,10 +1,10 @@
 ---
 title: "Palmer Penguins"
 author: "Ajay Shankar A"
-date: "2023-11-23"
+date: "2023-11-21"
 format: html
 editor: visual
-categories: [Machine Learning, EDA, code]
+categories: [Machine Learning, EDA, Code, Analysis]
 ---
 
 ```{r setup}

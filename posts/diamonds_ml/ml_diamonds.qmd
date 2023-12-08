@@ -1,0 +1,112 @@
+---
+title: "Predict Price of Diamonds"
+author: "Ajay Shankar A"
+date: "2023-11-14"
+format: html
+code-fold: false
+categories: [Analysis, Code, EDA, Modeling]
+---
+
+## Predicting Diamonds Price
+
+### Introduction
+
+Building a model to **predict the price of the diamonds** using `tidymodels`.
+
+  Diamonds data set is readily available to use through the `ggplot2` library in the `tidyverse` and we will be using this data set predict the prices of the other diamonds.
+
+In the data set various parameters of diamonds are given and each of these parameters may or may not effect the **price** of the diamonds.
+
+
+```{r setup}
+#| echo: false
+
+library(knitr)
+
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 150,
+                      fig.height = 5, fig.width = 8)
+
+```
+
+```{r loading libraries and data}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+
+data("diamonds")
+diamonds
+
+```
+Data has over 50,000 observations which is good for modeling.
+
+### Exploring the data
+
+The diamonds data set is available to explore in `ggplot2` library as mentioned above.
+
+Let's check for NA's before exploring the data
+
+```{r na_check}
+
+diamonds %>% map( ~sum(is.na(.))) %>% unlist()
+
+```
+
+
+
+```{r price_histogram}
+#| label: fig-price_hist
+
+diamonds %>% ggplot(aes(carat)) + geom_freqpoly(binwidth = 0.05)
+
+```
+From the @fig-price_hist we can observe that
+- Most of the diamonds are between 0.2 to 1.5 carats.
+- There are peaks which means higher number of diamonds at whole and common fractions.
+
+My general knowledge is that the weight i.e, carat of the diamond influences the price most. Let's visualize that.
+
+
+```{r price_vs_carat}
+
+diamonds %>% ggplot(aes(carat, price)) + geom_hex(bins = 50)
+
+```
+
+The price tends to follow exponential curve the `log2()` curve, we can confirm this by another graph.
+
+```{r log_price_vs_carat}
+#| label: fig-log_prc_vs_carat
+
+diamonds %>% filter(carat < 2.5) %>% 
+  mutate(log_price = log2(price),
+                    log_carat = log2(carat)) %>% 
+  ggplot(aes(log_carat, log_price)) + geom_hex(bins = 50)
+```
+
+The above @fig-log_prc_vs_carat shows that once we apply `log2()` to both price and carat the relationship mostly looks to be linear.
+
+```{r}
+diamonds %>% filter(carat <= 2.5) %>% ggplot(aes(carat, price)) +
+  geom_col()
+```
+
+We can see that `price` jumps when the weight is exactly or greater than to the whole and common fractions such as 0.5, 1.0, 1.5 and 2.
+
+
+```{r exploring the data}
+library(patchwork)
+
+plot_parameter <- function(param){
+  ggplot(diamonds, aes({{param}}, price)) + geom_boxplot()
+}
+
+(plot_parameter(cut) + plot_parameter(color)) /
+  (plot_parameter(clarity))
+
+```
+
+
+
+
+
