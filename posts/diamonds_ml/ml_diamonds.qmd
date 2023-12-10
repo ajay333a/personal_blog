@@ -4,7 +4,7 @@ author: "Ajay Shankar A"
 date: "2023-12-10"
 format: html
 code-fold: false
-categories: [Analysis, Code, EDA, Modeling]
+categories: [Analysis, Code, EDA, Modeling, Machine Learning]
 ---
 
 ## Predicting Diamonds Price
@@ -73,6 +73,7 @@ Now lets visualize the distribution of the diamonds.
 
 ```{r price_histogram}
 #| label: fig-price_hist
+#| fig-cap: Frequency polygon plot
 
 diamonds %>% ggplot(aes(carat)) + geom_freqpoly(binwidth = 0.05)
 
@@ -94,6 +95,7 @@ The price tends to follow exponential curve the `log2()` curve, we can confirm t
 
 ```{r log_price_vs_carat}
 #| label: fig-log_prc_vs_carat
+#| fig-cap: Log of carat vs Log of Price at base 2
 
 diamonds %>% filter(carat < 2.5) %>% 
   mutate(log_price = log10(price),
@@ -133,6 +135,7 @@ Low quality diamonds with Fair cut and low quality color seems to have very high
 As every parameter in the data is important for the price prediction we are going to keep all the columns intact.
 
 ```{r data_split}
+#| echo: false
 
 library(tidymodels)
 set.seed(2023)
