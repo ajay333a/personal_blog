@@ -1,0 +1,284 @@
+---
+title: "Predict Price of Diamonds"
+author: "Ajay Shankar A"
+date: "2023-12-10"
+format: html
+code-fold: false
+categories: [Analysis, Code, EDA, Modeling]
+---
+
+
+## Predicting Diamonds Price
+
+### Introduction
+
+Building a model to **predict the price of the diamonds** using `tidymodels`.
+
+  Diamonds data set is readily available to use through the `ggplot2` library in the `tidyverse` and we will be using this data set predict the prices of the other diamonds.
+
+In the data set various parameters of diamonds are given and each of these parameters may or may not effect the **price** of the diamonds.
+
+
+
+```{r setup}
+#| echo: false
+
+library(knitr)
+
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 150,
+                      fig.height = 5, fig.width = 8)
+
+```
+
+```{r loading libraries and data}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+
+data("diamonds")
+diamonds
+
+```
+
+Data has over 50,000 observations which is good for modeling.
+
+### Exploring the data
+
+The diamonds data set is available to explore in `ggplot2` library as mentioned above.
+
+Let's check for NA's before exploring the data
+
+
+```{r na_check}
+
+diamonds %>% map( ~sum(is.na(.))) %>% unlist()
+
+```
+
+
+It's really good that there are no `NA`'s but we have to be careful of the `0` in the numeric columns.
+
+
+```{r zero_check}
+
+diamonds %>% select(carat, x, y, z) %>% arrange(x, y, z)
+
+```
+
+Diamonds cannot have a `x`(length), `y`(width), `z`(depth) of 0 and have weight. So let's replace these values with `NA` or we can remove them out completely too.
+
+
+```{r zero_replace}
+
+diamonds %>% mutate(x = if_else(x == "0", NA, x),
+                    y = if_else(y == "0", NA, y),
+                    z = if_else(y == "0", NA, z))
+
+```
+
+
+Now lets visualize the distribution of the diamonds.
+
+
+```{r price_histogram}
+#| label: fig-price_hist
+
+diamonds %>% ggplot(aes(carat)) + geom_freqpoly(binwidth = 0.05)
+
+```
+
+From the @fig-price_hist we can observe that
+- Most of the diamonds are between 0.2 to 1.5 carats.
+- There are peaks which means higher number of diamonds at whole and common fractions.
+
+My general knowledge is that the weight i.e, carat of the diamond influences the price most. Let's visualize that.
+
+
+
+```{r price_vs_carat}
+
+diamonds %>% ggplot(aes(carat, price)) + geom_hex(bins = 50)
+
+```
+
+
+The price tends to follow exponential curve the `log2()` curve, we can confirm this by another graph.
+
+
+```{r log_price_vs_carat}
+#| label: fig-log_prc_vs_carat
+
+diamonds %>% filter(carat < 2.5) %>% 
+  mutate(log_price = log10(price),
+                    log_carat = log10(carat)) %>% 
+  ggplot(aes(log_carat, log_price)) + geom_hex(bins = 50)
+```
+
+
+The above @fig-log_prc_vs_carat shows that once we apply `log2()` to both price and carat the relationship mostly looks to be linear.
+
+
+```{r distribution}
+diamonds %>% filter(carat <= 2.5) %>% ggplot(aes(carat, price)) +
+  geom_point(alpha = 0.1, color = "purple")
+```
+
+
+We can see that `price` jumps when the weight is exactly or greater than to the whole and common fractions such as 0.5, 1.0, 1.5 and 2.
+
+
+
+```{r exploring the data}
+library(patchwork)
+
+plot_parameter <- function(param){
+  ggplot(diamonds, aes(fct_reorder({{param}}, price), price)) +
+    geom_boxplot() + stat_summary(fun.y = mean, geom = "point") +
+    labs(x = as_label(substitute(param)))
+}
+
+(plot_parameter(cut) + plot_parameter(color)) /
+  (plot_parameter(clarity))
+
+```
+
+
+Low quality diamonds with Fair cut and low quality color seems to have very high price. So now lets use `tidymodels` to model the data using `rand_forest`
+
+
+### Building a model
+
+As every parameter in the data is important for the price prediction we are going to keep all the columns intact.
+
+
+```{r data_split}
+
+library(tidymodels)
+set.seed(2023)
+
+diamonds_2 <- diamonds %>% 
+  mutate(price = log2(price), carat = log2(carat))
+
+diamonds_split <- initial_split(diamonds_2, strata = carat, prop = 0.8)
+diamonds_split
+
+diamonds_train <- training(diamonds_split)
+diamonds_test <- testing(diamonds_split)
+
+
+```
+
+
+I am using `strata` with `carat` as most of the diamonds are not properly distributed yet all diamonds of different weight should be well represented.
+
+```{r resamples_dia}
+
+diamonds_boot <- bootstraps(diamonds_train, times = 2)
+
+diamonds_boot
+```
+
+
+I think `rand_forest` will work better on this data set but lets compare both **Linear Regression** models and **Random Forest** models.
+
+
+```{r models}
+
+lm_spec <- linear_reg() %>% set_engine("glm")
+lm_spec
+
+rf_spec <- rand_forest(mtry = 3, trees = 500, min_n = 5 ) %>% 
+  set_mode("regression") %>% 
+  set_engine("ranger")
+rf_spec
+
+```
+
+
+We still need to maniplulate some parts of the data like price and carat so that they are optimised which can be done using `recipe` library.
+
+
+```{r adding_recipe}
+
+diamonds_recp <- 
+  recipe(price ~ ., data = diamonds_train)
+
+diamonds_recp
+```
+
+
+
+Next let's start putting together a tidymodels `workflow()`, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks.
+
+
+```{r work_flow}
+
+diamonds_wf <- workflow() %>%
+  add_recipe(diamonds_recp)
+
+diamonds_wf
+
+```
+
+
+Let's fit the two models we prepared for the data. First code block contains linear regression model and the second contains the random_forest model.
+
+1. Linear Regression model
+
+```{r lm_rs}
+# Linear regression
+glm_rs <- diamonds_wf %>% 
+  add_model(lm_spec) %>% 
+  fit_resamples(
+    resamples = diamonds_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+glm_rs
+
+```
+
+2. Random Forest model
+
+```{r rf_rs}
+
+rf_rs <- diamonds_wf %>% 
+  add_model(rf_spec) %>% 
+  fit_resamples(
+    resamples = diamonds_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+rf_rs
+
+```
+
+
+We have fit out training data to the models.
+
+## Evaluating models
+
+Now let's check the results and how well they performed.
+
+
+```{r glm_metics}
+# Linear regression model
+collect_metrics(glm_rs)
+
+```
+
+```{r rf_metrics}
+
+# Random Forest model
+collect_metrics(rf_rs)
+
+```
+
+
+Both of the models have high accuracy but I prefer **Random Forest Model** as it is preferred when there are more nominal and ordinal data points.
+
+
+
+
+

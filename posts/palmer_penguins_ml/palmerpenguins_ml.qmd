@@ -112,7 +112,7 @@ penguin_wf
 
 ```
 
-Now we canadd a model and fit the model to each of the resamples. First, we can fit the logistic regression model
+Now we can add a model and fit the model to each of the resamples. First, we can fit the logistic regression model
 
 ```{r glm_results}
 
