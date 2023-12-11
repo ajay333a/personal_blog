@@ -17,7 +17,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 200,
 
 Building a model to predict the sex of three species of penguins of **Palmer Penguins** data.
 
-::: disclaimer-box
+::: {.callout-tip}
 This is my first Machine Learning project and I am still learning as of this date. This work is inspired by **Julia Silge** and you can find the original work by her in her [blog](https://juliasilge.com/blog/palmer-penguins/) and would like to thank her for the teachings in [Youtube channel](https://www.youtube.com/@JuliaSilge)
 :::
 

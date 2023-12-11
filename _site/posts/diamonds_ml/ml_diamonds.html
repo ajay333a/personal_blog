@@ -102,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -156,6 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                 <div class="quarto-category">Code</div>
                 <div class="quarto-category">EDA</div>
                 <div class="quarto-category">Modeling</div>
+                <div class="quarto-category">Machine Learning</div>
               </div>
                   </div>
   </div>
@@ -184,7 +185,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#predicting-diamonds-price" id="toc-predicting-diamonds-price" class="nav-link active" data-scroll-target="#predicting-diamonds-price">Predicting Diamonds Price</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#exploring-the-data" id="toc-exploring-the-data" class="nav-link" data-scroll-target="#exploring-the-data">Exploring the data</a></li>
+  <li><a href="#building-a-model" id="toc-building-a-model" class="nav-link" data-scroll-target="#building-a-model">Building a model</a></li>
+  </ul></li>
+  <li><a href="#evaluating-models" id="toc-evaluating-models" class="nav-link" data-scroll-target="#evaluating-models">Evaluating models</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -340,59 +355,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="building-a-model">Building a model</h3>
 <p>As every parameter in the data is important for the price prediction we are going to keep all the columns intact.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>✔ broom        1.0.5     ✔ rsample      1.2.0
-✔ dials        1.2.0     ✔ tune         1.1.2
-✔ infer        1.0.5     ✔ workflows    1.1.3
-✔ modeldata    1.2.0     ✔ workflowsets 1.0.1
-✔ parsnip      1.1.1     ✔ yardstick    1.2.0
-✔ recipes      1.0.8     </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
-✖ scales::discard() masks purrr::discard()
-✖ dplyr::filter()   masks stats::filter()
-✖ recipes::fixed()  masks stringr::fixed()
-✖ dplyr::lag()      masks stats::lag()
-✖ yardstick::spec() masks readr::spec()
-✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>diamonds_2 <span class="ot">&lt;-</span> diamonds <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">log2</span>(price), <span class="at">carat =</span> <span class="fu">log2</span>(carat))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>diamonds_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(diamonds_2, <span class="at">strata =</span> carat, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>diamonds_split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
 &lt;43150/10790/53940&gt;</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>diamonds_train <span class="ot">&lt;-</span> <span class="fu">training</span>(diamonds_split)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>diamonds_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(diamonds_split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I am using <code>strata</code> with <code>carat</code> as most of the diamonds are not properly distributed yet all diamonds of different weight should be well represented.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>diamonds_boot <span class="ot">&lt;-</span> <span class="fu">bootstraps</span>(diamonds_train, <span class="at">times =</span> <span class="dv">2</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>diamonds_boot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>diamonds_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(diamonds_train, <span class="at">v =</span> <span class="dv">10</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>diamonds_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># Bootstrap sampling 
-# A tibble: 2 × 2
-  splits                id        
-  &lt;list&gt;                &lt;chr&gt;     
-1 &lt;split [43150/15849]&gt; Bootstrap1
-2 &lt;split [43150/15854]&gt; Bootstrap2</code></pre>
+<pre><code>#  10-fold cross-validation 
+# A tibble: 10 × 2
+   splits               id    
+   &lt;list&gt;               &lt;chr&gt; 
+ 1 &lt;split [38835/4315]&gt; Fold01
+ 2 &lt;split [38835/4315]&gt; Fold02
+ 3 &lt;split [38835/4315]&gt; Fold03
+ 4 &lt;split [38835/4315]&gt; Fold04
+ 5 &lt;split [38835/4315]&gt; Fold05
+ 6 &lt;split [38835/4315]&gt; Fold06
+ 7 &lt;split [38835/4315]&gt; Fold07
+ 8 &lt;split [38835/4315]&gt; Fold08
+ 9 &lt;split [38835/4315]&gt; Fold09
+10 &lt;split [38835/4315]&gt; Fold10</code></pre>
 </div>
 </div>
 <p>I think <code>rand_forest</code> will work better on this data set but lets compare both <strong>Linear Regression</strong> models and <strong>Random Forest</strong> models.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>lm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>lm_spec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lm_spec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression Model Specification (regression)
 
 Computational engine: glm </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="dv">3</span>, <span class="at">trees =</span> <span class="dv">500</span>, <span class="at">min_n =</span> <span class="dv">5</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>rf_spec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="dv">3</span>, <span class="at">trees =</span> <span class="dv">500</span>, <span class="at">min_n =</span> <span class="dv">5</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>rf_spec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Random Forest Model Specification (regression)
 
@@ -406,10 +417,10 @@ Computational engine: ranger </code></pre>
 </div>
 <p>We still need to maniplulate some parts of the data like price and carat so that they are optimised which can be done using <code>recipe</code> library.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>diamonds_recp <span class="ot">&lt;-</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(price <span class="sc">~</span> ., <span class="at">data =</span> diamonds_train)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>diamonds_recp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>diamonds_recp <span class="ot">&lt;-</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(price <span class="sc">~</span> ., <span class="at">data =</span> diamonds_train)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>diamonds_recp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
@@ -432,10 +443,10 @@ predictor: 9</code></pre>
 </div>
 <p>Next let’s start putting together a tidymodels <code>workflow()</code>, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>diamonds_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(diamonds_recp)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>diamonds_wf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>diamonds_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(diamonds_recp)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>diamonds_wf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
 Preprocessor: Recipe
@@ -450,45 +461,61 @@ Model: None
 <li>Linear Regression model</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear regression</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>glm_rs <span class="ot">&lt;-</span> diamonds_wf <span class="sc">%&gt;%</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_spec) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> diamonds_boot,</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>glm_rs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear regression</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>glm_rs <span class="ot">&lt;-</span> diamonds_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_spec) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> diamonds_folds,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>glm_rs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Resampling results
-# Bootstrap sampling 
-# A tibble: 2 × 5
-  splits                id         .metrics         .notes   .predictions
-  &lt;list&gt;                &lt;chr&gt;      &lt;list&gt;           &lt;list&gt;   &lt;list&gt;      
-1 &lt;split [43150/15849]&gt; Bootstrap1 &lt;tibble [2 × 4]&gt; &lt;tibble&gt; &lt;tibble&gt;    
-2 &lt;split [43150/15854]&gt; Bootstrap2 &lt;tibble [2 × 4]&gt; &lt;tibble&gt; &lt;tibble&gt;    </code></pre>
+# 10-fold cross-validation 
+# A tibble: 10 × 5
+   splits               id     .metrics         .notes           .predictions
+   &lt;list&gt;               &lt;chr&gt;  &lt;list&gt;           &lt;list&gt;           &lt;list&gt;      
+ 1 &lt;split [38835/4315]&gt; Fold01 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 2 &lt;split [38835/4315]&gt; Fold02 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 3 &lt;split [38835/4315]&gt; Fold03 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 4 &lt;split [38835/4315]&gt; Fold04 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 5 &lt;split [38835/4315]&gt; Fold05 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 6 &lt;split [38835/4315]&gt; Fold06 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 7 &lt;split [38835/4315]&gt; Fold07 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 8 &lt;split [38835/4315]&gt; Fold08 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 9 &lt;split [38835/4315]&gt; Fold09 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+10 &lt;split [38835/4315]&gt; Fold10 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    </code></pre>
 </div>
 </div>
 <ol start="2" type="1">
 <li>Random Forest model</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>rf_rs <span class="ot">&lt;-</span> diamonds_wf <span class="sc">%&gt;%</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_spec) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> diamonds_boot,</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>rf_rs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>rf_rs <span class="ot">&lt;-</span> diamonds_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_spec) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> diamonds_folds,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>rf_rs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Resampling results
-# Bootstrap sampling 
-# A tibble: 2 × 5
-  splits                id         .metrics         .notes   .predictions
-  &lt;list&gt;                &lt;chr&gt;      &lt;list&gt;           &lt;list&gt;   &lt;list&gt;      
-1 &lt;split [43150/15849]&gt; Bootstrap1 &lt;tibble [2 × 4]&gt; &lt;tibble&gt; &lt;tibble&gt;    
-2 &lt;split [43150/15854]&gt; Bootstrap2 &lt;tibble [2 × 4]&gt; &lt;tibble&gt; &lt;tibble&gt;    </code></pre>
+# 10-fold cross-validation 
+# A tibble: 10 × 5
+   splits               id     .metrics         .notes           .predictions
+   &lt;list&gt;               &lt;chr&gt;  &lt;list&gt;           &lt;list&gt;           &lt;list&gt;      
+ 1 &lt;split [38835/4315]&gt; Fold01 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 2 &lt;split [38835/4315]&gt; Fold02 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 3 &lt;split [38835/4315]&gt; Fold03 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 4 &lt;split [38835/4315]&gt; Fold04 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 5 &lt;split [38835/4315]&gt; Fold05 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 6 &lt;split [38835/4315]&gt; Fold06 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 7 &lt;split [38835/4315]&gt; Fold07 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 8 &lt;split [38835/4315]&gt; Fold08 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+ 9 &lt;split [38835/4315]&gt; Fold09 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    
+10 &lt;split [38835/4315]&gt; Fold10 &lt;tibble [2 × 4]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    </code></pre>
 </div>
 </div>
 <p>We have fit out training data to the models.</p>
@@ -498,25 +525,25 @@ Model: None
 <h2 class="anchored" data-anchor-id="evaluating-models">Evaluating models</h2>
 <p>Now let’s check the results and how well they performed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear regression model</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(glm_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear regression model</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(glm_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 6
-  .metric .estimator  mean     n   std_err .config             
-  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;               
-1 rmse    standard   0.193     2 0.0000785 Preprocessor1_Model1
-2 rsq     standard   0.983     2 0.0000705 Preprocessor1_Model1</code></pre>
+  .metric .estimator  mean     n  std_err .config             
+  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard   0.194    10 0.00102  Preprocessor1_Model1
+2 rsq     standard   0.983    10 0.000198 Preprocessor1_Model1</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest model</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(rf_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest model</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(rf_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 6
-  .metric .estimator  mean     n   std_err .config             
-  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;               
-1 rmse    standard   0.137     2 0.000353  Preprocessor1_Model1
-2 rsq     standard   0.991     2 0.0000186 Preprocessor1_Model1</code></pre>
+  .metric .estimator  mean     n  std_err .config             
+  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard   0.133    10 0.000906 Preprocessor1_Model1
+2 rsq     standard   0.992    10 0.000114 Preprocessor1_Model1</code></pre>
 </div>
 </div>
 <p>Both of the models have high accuracy but I prefer <strong>Random Forest Model</strong> as it is preferred when there are more nominal and ordinal data points.</p>
