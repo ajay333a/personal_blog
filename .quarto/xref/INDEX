@@ -27,5 +27,8 @@
   },
   "posts/palmer_penguins_ml/palmerpenguins_ml.qmd": {
     "palmerpenguins_ml.html": "24b6ca93"
+  },
+  "posts/diamonds_ml/ml_diamonds.qmd": {
+    "ml_diamonds.html": "15cddaf2"
   }
 }

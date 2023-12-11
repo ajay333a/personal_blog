@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ajay Shankar A">
-<meta name="dcterms.date" content="2023-11-23">
+<meta name="dcterms.date" content="2023-11-21">
 
 <title>Ajay Shankar A - Palmer Penguins</title>
 <style>
@@ -154,7 +154,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                                 <div class="quarto-categories">
                 <div class="quarto-category">Machine Learning</div>
                 <div class="quarto-category">EDA</div>
-                <div class="quarto-category">code</div>
+                <div class="quarto-category">Code</div>
+                <div class="quarto-category">Analysis</div>
               </div>
                   </div>
   </div>
@@ -172,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 23, 2023</p>
+        <p class="date">November 21, 2023</p>
       </div>
     </div>
     
@@ -191,8 +192,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Building a model to predict the sex of three species of penguins of <strong>Palmer Penguins</strong> data.</p>
-<div class="disclaimer-box">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>This is my first Machine Learning project and I am still learning as of this date. This work is inspired by <strong>Julia Silge</strong> and you can find the original work by her in her <a href="https://juliasilge.com/blog/palmer-penguins/">blog</a> and would like to thank her for the teachings in <a href="https://www.youtube.com/@JuliaSilge">Youtube channel</a></p>
+</div>
 </div>
 <section id="exploring-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="exploring-the-data">Exploring the data</h2>
@@ -280,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
+• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -353,7 +364,7 @@ Model: None
 sex ~ .</code></pre>
 </div>
 </div>
-<p>Now we canadd a model and fit the model to each of the resamples. First, we can fit the logistic regression model</p>
+<p>Now we can add a model and fit the model to each of the resamples. First, we can fit the logistic regression model</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>glm_rs <span class="ot">&lt;-</span> penguin_wf <span class="sc">%&gt;%</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(glm_spec) <span class="sc">%&gt;%</span></span>
@@ -368,8 +379,7 @@ sex ~ .</code></pre>
 <pre><code>There were issues with some computations   A: x1</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>There were issues with some computations   A: x3
-There were issues with some computations   A: x3</code></pre>
+<pre><code>There were issues with some computations   A: x3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
