@@ -2,8 +2,9 @@
 title: "Palmer Penguins"
 author: "Ajay Shankar A"
 date: "2023-11-21"
-format: html
-editor: visual
+format: 
+  html: default
+  docx: default
 categories: [Machine Learning, EDA, Code, Analysis]
 ---
 
@@ -17,7 +18,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 200,
 
 Building a model to predict the sex of three species of penguins of **Palmer Penguins** data.
 
-::: {.callout-tip}
+::: callout-tip
 This is my first Machine Learning project and I am still learning as of this date. This work is inspired by **Julia Silge** and you can find the original work by her in her [blog](https://juliasilge.com/blog/palmer-penguins/) and would like to thank her for the teachings in [Youtube channel](https://www.youtube.com/@JuliaSilge)
 :::
 
@@ -55,7 +56,7 @@ penguins_df <- penguins %>% filter(!is.na(sex)) %>% select(-year, -island)
 penguins_df
 ```
 
-## BUilding a Model
+## Building a Model
 
 Let's start by loading the `tidymodels` package and splitting our data into training and testing sets.
 

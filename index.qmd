@@ -1,5 +1,5 @@
 ---
-title: "Ajay Shankar A"
+title: "Projects with R language"
 listing:
   contents: posts
   sort: "date desc"

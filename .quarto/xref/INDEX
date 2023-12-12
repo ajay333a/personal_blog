@@ -17,18 +17,22 @@
   },
   "posts/data_analysis_for-thesis/data_treatment_effect.qmd": {
     "data_treatment_effect.html": "130bb9dc",
-    "data_treatment_effect.tex": "2831fa67"
+    "data_treatment_effect.tex": "2831fa67",
+    "data_treatment_effect.docx": "2a09b754"
   },
   "posts/cyclist_trip_analysis/divy_tripdata_202207_202306.qmd": {
-    "divy_tripdata_202207_202306.html": "79530378"
+    "divy_tripdata_202207_202306.html": "79530378",
+    "divy_tripdata_202207_202306.docx": "5272003d"
   },
   "posts/palmer_penguins_ml/palmer_penguins_ml.qmd": {
     "palmer_penguins_ml.html": "a04a14ce"
   },
   "posts/palmer_penguins_ml/palmerpenguins_ml.qmd": {
-    "palmerpenguins_ml.html": "24b6ca93"
+    "palmerpenguins_ml.html": "24b6ca93",
+    "palmerpenguins_ml.docx": "f8e2444d"
   },
   "posts/diamonds_ml/ml_diamonds.qmd": {
-    "ml_diamonds.html": "15cddaf2"
+    "ml_diamonds.html": "15cddaf2",
+    "ml_diamonds.docx": "9cbec220"
   }
 }

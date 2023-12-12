@@ -102,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -119,6 +119,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">Ajay Shankar A</span></a>
@@ -183,7 +187,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#cyclist-bike-share" id="toc-cyclist-bike-share" class="nav-link active" data-scroll-target="#cyclist-bike-share">CYCLIST BIKE SHARE</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#loading-and-formatting-data" id="toc-loading-and-formatting-data" class="nav-link" data-scroll-target="#loading-and-formatting-data">Loading and Formatting Data</a></li>
+  <li><a href="#cleaning-the-data" id="toc-cleaning-the-data" class="nav-link" data-scroll-target="#cleaning-the-data">Cleaning the data</a></li>
+  </ul></li>
+  <li><a href="#analysis-of-data" id="toc-analysis-of-data" class="nav-link" data-scroll-target="#analysis-of-data">Analysis of Data</a>
+  <ul class="collapse">
+  <li><a href="#aggregating-data-by-rider-type-and-bike-type." id="toc-aggregating-data-by-rider-type-and-bike-type." class="nav-link" data-scroll-target="#aggregating-data-by-rider-type-and-bike-type.">Aggregating data by Rider type and Bike type.</a></li>
+  <li><a href="#analysing-data-by-time-of-the-year-and-ride-length" id="toc-analysing-data-by-time-of-the-year-and-ride-length" class="nav-link" data-scroll-target="#analysing-data-by-time-of-the-year-and-ride-length">Analysing data by Time of the year and Ride Length</a></li>
+  <li><a href="#analysing-of-stations-and-routes." id="toc-analysing-of-stations-and-routes." class="nav-link" data-scroll-target="#analysing-of-stations-and-routes.">Analysing of Stations and Routes.</a></li>
+  <li><a href="#looking-at-filtered-data" id="toc-looking-at-filtered-data" class="nav-link" data-scroll-target="#looking-at-filtered-data">Looking at Filtered data</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="divy_tripdata_202207_202306.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -402,23 +429,23 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 <div class="cell-output-display">
 <div id="tbl-avg_ride_legnth" class="anchored">
 
-<div id="shgumhkdgi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#shgumhkdgi table {
+<div id="fwmgsweabo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fwmgsweabo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#shgumhkdgi thead, #shgumhkdgi tbody, #shgumhkdgi tfoot, #shgumhkdgi tr, #shgumhkdgi td, #shgumhkdgi th {
+#fwmgsweabo thead, #fwmgsweabo tbody, #fwmgsweabo tfoot, #fwmgsweabo tr, #fwmgsweabo td, #fwmgsweabo th {
   border-style: none;
 }
 
-#shgumhkdgi p {
+#fwmgsweabo p {
   margin: 0;
   padding: 0;
 }
 
-#shgumhkdgi .gt_table {
+#fwmgsweabo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -444,12 +471,12 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-left-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_caption {
+#fwmgsweabo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#shgumhkdgi .gt_title {
+#fwmgsweabo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -461,7 +488,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-width: 0;
 }
 
-#shgumhkdgi .gt_subtitle {
+#fwmgsweabo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -473,7 +500,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-top-width: 0;
 }
 
-#shgumhkdgi .gt_heading {
+#fwmgsweabo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -485,13 +512,13 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_bottom_border {
+#fwmgsweabo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_col_headings {
+#fwmgsweabo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -506,7 +533,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_col_heading {
+#fwmgsweabo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -526,7 +553,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   overflow-x: hidden;
 }
 
-#shgumhkdgi .gt_column_spanner_outer {
+#fwmgsweabo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -538,15 +565,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 4px;
 }
 
-#shgumhkdgi .gt_column_spanner_outer:first-child {
+#fwmgsweabo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#shgumhkdgi .gt_column_spanner_outer:last-child {
+#fwmgsweabo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#shgumhkdgi .gt_column_spanner {
+#fwmgsweabo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -558,11 +585,11 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   width: 100%;
 }
 
-#shgumhkdgi .gt_spanner_row {
+#fwmgsweabo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#shgumhkdgi .gt_group_heading {
+#fwmgsweabo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -588,7 +615,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   text-align: left;
 }
 
-#shgumhkdgi .gt_empty_group_heading {
+#fwmgsweabo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -603,15 +630,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   vertical-align: middle;
 }
 
-#shgumhkdgi .gt_from_md > :first-child {
+#fwmgsweabo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#shgumhkdgi .gt_from_md > :last-child {
+#fwmgsweabo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#shgumhkdgi .gt_row {
+#fwmgsweabo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -630,7 +657,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   overflow-x: hidden;
 }
 
-#shgumhkdgi .gt_stub {
+#fwmgsweabo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -643,7 +670,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#shgumhkdgi .gt_stub_row_group {
+#fwmgsweabo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -657,15 +684,15 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   vertical-align: top;
 }
 
-#shgumhkdgi .gt_row_group_first td {
+#fwmgsweabo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#shgumhkdgi .gt_row_group_first th {
+#fwmgsweabo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#shgumhkdgi .gt_summary_row {
+#fwmgsweabo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -675,16 +702,16 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#shgumhkdgi .gt_first_summary_row {
+#fwmgsweabo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_first_summary_row.thick {
+#fwmgsweabo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#shgumhkdgi .gt_last_summary_row {
+#fwmgsweabo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -694,7 +721,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_grand_summary_row {
+#fwmgsweabo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -704,7 +731,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#shgumhkdgi .gt_first_grand_summary_row {
+#fwmgsweabo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -714,7 +741,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-top-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_last_grand_summary_row_top {
+#fwmgsweabo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -724,11 +751,11 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_striped {
+#fwmgsweabo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#shgumhkdgi .gt_table_body {
+#fwmgsweabo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -737,7 +764,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-bottom-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_footnotes {
+#fwmgsweabo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -751,7 +778,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_footnote {
+#fwmgsweabo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -760,7 +787,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#shgumhkdgi .gt_sourcenotes {
+#fwmgsweabo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -774,7 +801,7 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   border-right-color: #D3D3D3;
 }
 
-#shgumhkdgi .gt_sourcenote {
+#fwmgsweabo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -782,63 +809,63 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   padding-right: 5px;
 }
 
-#shgumhkdgi .gt_left {
+#fwmgsweabo .gt_left {
   text-align: left;
 }
 
-#shgumhkdgi .gt_center {
+#fwmgsweabo .gt_center {
   text-align: center;
 }
 
-#shgumhkdgi .gt_right {
+#fwmgsweabo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#shgumhkdgi .gt_font_normal {
+#fwmgsweabo .gt_font_normal {
   font-weight: normal;
 }
 
-#shgumhkdgi .gt_font_bold {
+#fwmgsweabo .gt_font_bold {
   font-weight: bold;
 }
 
-#shgumhkdgi .gt_font_italic {
+#fwmgsweabo .gt_font_italic {
   font-style: italic;
 }
 
-#shgumhkdgi .gt_super {
+#fwmgsweabo .gt_super {
   font-size: 65%;
 }
 
-#shgumhkdgi .gt_footnote_marks {
+#fwmgsweabo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#shgumhkdgi .gt_asterisk {
+#fwmgsweabo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#shgumhkdgi .gt_indent_1 {
+#fwmgsweabo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#shgumhkdgi .gt_indent_2 {
+#fwmgsweabo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#shgumhkdgi .gt_indent_3 {
+#fwmgsweabo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#shgumhkdgi .gt_indent_4 {
+#fwmgsweabo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#shgumhkdgi .gt_indent_5 {
+#fwmgsweabo .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -926,8 +953,18 @@ $ ride_length        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 </div>
 </div>
 <p>The above <a href="#fig-avg_ride_length">Figure&nbsp;1</a> clearly shows that members average ride lengths between bike types doesn’t differ much for <strong>member</strong> riders but differs with <strong>casual</strong> riders upto <strong>8 minutes</strong>.</p>
-<div class="highlight-box">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Further down in the analysis “docked_bike” type is dropped as no proper documentation is available in the course.</p>
+</div>
 </div>
 </section>
 <section id="analysing-data-by-time-of-the-year-and-ride-length" class="level3">
@@ -1108,27 +1145,28 @@ $ stations_travelled &lt;chr&gt; "Lincoln Ave &amp; Roscoe St* - Lincoln Ave &am
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>most_travelled_routes_casual <span class="ot">&lt;-</span> data_one_year <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(member_casual <span class="sc">==</span> <span class="st">"casual"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_ride_length =</span> <span class="fu">round</span>(<span class="fu">mean</span>(ride_length), <span class="dv">2</span>),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(stations_travelled)) <span class="sc">%&gt;%</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ride_count))</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(most_travelled_routes_casual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(member_casual <span class="sc">==</span> <span class="st">"casual"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         ride_length <span class="sc">&gt;=</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ride_count =</span> <span class="fu">n</span>(),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_ride_length =</span> <span class="fu">round</span>(<span class="fu">mean</span>(ride_length), <span class="dv">2</span>),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(stations_travelled)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ride_count))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(most_travelled_routes_casual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   stations_travelled                                  ride_count avg_ride_length
   &lt;chr&gt;                                                    &lt;int&gt;           &lt;dbl&gt;
-1 Streeter Dr &amp; Grand Ave - Streeter Dr &amp; Grand Ave         9698            39.6
-2 DuSable Lake Shore Dr &amp; Monroe St - DuSable Lake S…       6584            33.4
+1 Streeter Dr &amp; Grand Ave - Streeter Dr &amp; Grand Ave         8259            46.3
+2 DuSable Lake Shore Dr &amp; Monroe St - DuSable Lake S…       5726            38.3
 3 DuSable Lake Shore Dr &amp; Monroe St - Streeter Dr &amp; …       4840            27.1
-4 Michigan Ave &amp; Oak St - Michigan Ave &amp; Oak St             4292            44.6
-5 Millennium Park - Millennium Park                         3884            37.4
-6 Montrose Harbor - Montrose Harbor                         2711            48.3</code></pre>
+4 Michigan Ave &amp; Oak St - Michigan Ave &amp; Oak St             3754            50.9
+5 Millennium Park - Millennium Park                         3188            45.4
+6 Streeter Dr &amp; Grand Ave - DuSable Lake Shore Dr &amp; …       2663            27.8</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">NROW</span>(most_travelled_routes_casual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 130660</code></pre>
+<pre><code>[1] 130371</code></pre>
 </div>
 </div>
 <p><strong>Streeter Dr &amp; Grand Ave - Streeter Dr &amp; Grand Ave</strong> stands to be the most popular station with <strong>9698 rides</strong> by <strong>casual</strong> riders.</p>
@@ -1334,9 +1372,19 @@ $ end_point          &lt;chr&gt; "41.907066 -87.667252", "41.802406 -87.586924",
  9 41.79 -87.6 , 41.78 -87.6                          697
 10 41.89 -87.63 , 41.9 -87.63                         690</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(most_travelled_na_routes[<span class="st">"ride_count"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10928</code></pre>
+</div>
 </div>
 <ul>
-<li><p><strong>1459</strong>rides are not small when compared to most traveled routes.</p></li>
+<li><strong>10928</strong>rides are not small when compared to most traveled routes, but 10928 rides in 5 million rides is not that high.</li>
+</ul>
+</section>
+<section id="conclusions" class="level3">
+<h3 class="anchored" data-anchor-id="conclusions">Conclusions</h3>
+<ul>
+<li><p>As casual members go for long rides on the weekends offers on weekend rides with membership buying may help attract more memberships and might also make membership riders to make weekend end trips.</p></li>
 <li><p>To increase the memberships of the <strong>Cyclist Bike Share</strong> the company needs to place stations where most unknown routes are traveled by the riders.</p></li>
 </ul>
 

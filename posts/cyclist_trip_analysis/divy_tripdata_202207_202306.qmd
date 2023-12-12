@@ -2,8 +2,9 @@
 title: "CYCLIST BIKE SHARE"
 author: "Ajay Shankar A"
 date: "2023-11-14"
-format: html
-code-fold: false
+format: 
+  html: default
+  docx: default
 categories: [Analysis, Code, EDA]
 ---
 
@@ -185,7 +186,8 @@ average_ride_by_rideable_type
 
 The above @fig-avg_ride_length clearly shows that members average ride lengths between bike types doesn't differ much for **member** riders but differs with **casual** riders upto **8 minutes**.
 
-::: highlight-box
+::: {.callout-note}
+## Note
 Further down in the analysis "docked_bike" type is dropped as no proper documentation is available in the course.
 :::
 
@@ -306,7 +308,8 @@ glimpse(data_one_year)
 
 ```{r most travelled routes by casuals}
 most_travelled_routes_casual <- data_one_year %>%
-  filter(member_casual == "casual") %>% 
+  filter(member_casual == "casual",
+         ride_length >= 2) %>% 
   summarise(ride_count = n(),
             avg_ride_length = round(mean(ride_length), 2),
             .by = c(stations_travelled)) %>%
@@ -416,8 +419,15 @@ most_travelled_na_routes <- data_na_one_year %>%
 
 most_travelled_na_routes
 
-```
+sum(most_travelled_na_routes["ride_count"])
 
--   **1459**rides are not small when compared to most traveled routes.
+```
+-   **10928** rides are not small when compared to most traveled routes, but 10928 rides in 5 million rides is not that high.
+
+
+### Conclusions
+-   As casual members go for long rides on the weekends offers on weekend rides with membership buying may help attract more memberships and might also make membership riders to make weekend end trips.
 
 -   To increase the memberships of the **Cyclist Bike Share** the company needs to place stations where most unknown routes are traveled by the riders.
+
+
