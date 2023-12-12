@@ -6,6 +6,8 @@ website:
   navbar:
     background: primary
     right:
+      - text: "Home"
+        file: index.qmd
       - about.qmd
       - icon: github
         href: https://github.com/ajay333a

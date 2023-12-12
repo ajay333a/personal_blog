@@ -2,10 +2,11 @@
 title: "Predict Price of Diamonds"
 author: "Ajay Shankar A"
 date: "2023-12-10"
-format: html
+format: 
+  html: default
+  docx: default
 code-fold: false
-categories: [Analysis, Code, EDA, Modeling, Machine Learning]
-toc: true
+categories: [Analysis, R-code, EDA, Modeling, Machine Learning]
 ---
 
 ## Predicting Diamonds Price
