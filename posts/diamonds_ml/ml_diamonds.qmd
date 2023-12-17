@@ -29,12 +29,13 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 150,
 
 ```
 
-
 ```{r loading libraries and data}
 #| message: false
 #| warning: false
 
 library(tidyverse)
+library(plotly)
+library(DT)
 
 data("diamonds")
 diamonds
@@ -69,7 +70,8 @@ Diamonds cannot have a `x`(length), `y`(width), `z`(depth) of 0 and have weight.
 
 diamonds %>% mutate(x = if_else(x == "0", NA, x),
                     y = if_else(y == "0", NA, y),
-                    z = if_else(y == "0", NA, z))
+                    z = if_else(y == "0", NA, z)) %>% 
+  datatable()
 
 ```
 
@@ -79,7 +81,9 @@ Now lets visualize the distribution of the diamonds.
 #| label: fig-price_hist
 #| fig-cap: Frequency polygon plot
 
-diamonds %>% ggplot(aes(carat)) + geom_freqpoly(binwidth = 0.05)
+frequency_poly <- diamonds %>% ggplot(aes(carat)) + geom_freqpoly(binwidth = 0.05)
+
+ggplotly(frequency_poly)
 
 ```
 
