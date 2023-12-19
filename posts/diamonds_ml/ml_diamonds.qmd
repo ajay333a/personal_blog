@@ -106,14 +106,19 @@ The price tends to follow exponential curve the `log2()` curve, we can confirm t
 diamonds %>% filter(carat < 2.5) %>% 
   mutate(log_price = log10(price),
                     log_carat = log10(carat)) %>% 
-  ggplot(aes(log_carat, log_price)) + geom_hex(bins = 50)
+  ggplot(aes(log_carat, log_price)) + geom_hex(bins = 50) +
+  geom_smooth(method = "lm", formula = y ~ splines::bs(x, 3),
+              se = FALSE, linewidth = 1.5)
 ```
 
 The above @fig-log_prc_vs_carat shows that once we apply `log2()` to both price and carat the relationship mostly looks to be linear.
 
 ```{r distribution}
 diamonds %>% filter(carat <= 2.5) %>% ggplot(aes(carat, price)) +
-  geom_point(alpha = 0.1, color = "purple")
+  geom_point(alpha = 0.1, aes(color = price)) +
+  geom_smooth(method = "lm", formula = y ~ splines::bs(x, 3),
+              se = FALSE, linewidth = 1.5) +
+  scale_color_viridis_c()
 ```
 
 We can see that `price` jumps when the weight is exactly or greater than to the whole and common fractions such as 0.5, 1.0, 1.5 and 2.
@@ -123,7 +128,7 @@ library(patchwork)
 
 plot_parameter <- function(param){
   ggplot(diamonds, aes(fct_reorder({{param}}, price), price)) +
-    geom_boxplot() + stat_summary(fun.y = mean, geom = "point") +
+    geom_boxplot() + stat_summary(fun = mean, geom = "point") +
     labs(x = as_label(substitute(param)))
 }
 
@@ -145,7 +150,7 @@ As every parameter in the data is important for the price prediction we are goin
 library(tidymodels)
 set.seed(2023)
 
-diamonds_2 <- diamonds %>% 
+diamonds_2 <- diamonds %>% select(-depth) %>% 
   mutate(price = log2(price), carat = log2(carat))
 
 diamonds_split <- initial_split(diamonds_2, strata = carat, prop = 0.8)
@@ -161,7 +166,7 @@ I am using `strata` with `carat` as most of the diamonds are not properly distri
 
 ```{r resamples_dia}
 
-diamonds_folds <- vfold_cv(diamonds_train, v = 10)
+diamonds_folds <- vfold_cv(diamonds_train, strata = carat)
 diamonds_folds
 ```
 
@@ -172,7 +177,7 @@ I think `rand_forest` will work better on this data set but lets compare both **
 lm_spec <- linear_reg() %>% set_engine("glm")
 lm_spec
 
-rf_spec <- rand_forest(mtry = 3, trees = 500, min_n = 5 ) %>% 
+rf_spec <- rand_forest(trees = 1000) %>% 
   set_mode("regression") %>% 
   set_engine("ranger")
 rf_spec
@@ -183,72 +188,80 @@ We still need to maniplulate some parts of the data like price and carat so that
 
 ```{r adding_recipe}
 
-diamonds_recp <- 
-  recipe(price ~ ., data = diamonds_train)
+base_recp <- 
+  recipe(price ~ ., data = diamonds_train) %>% 
+  step_normalize(all_numeric_predictors())
 
-diamonds_recp
+ind_recp <- base_recp %>% 
+  step_dummy(all_nominal_predictors())
+
+spline_recp <- ind_recp %>% 
+  step_bs(carat)
 ```
 
 Next let's start putting together a tidymodels `workflow()`, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks.
 
 ```{r work_flow}
 
-diamonds_wf <- workflow() %>%
-  add_recipe(diamonds_recp)
+diamonds_set <- 
+  workflow_set(
+    list(base_recp, ind_recp, spline_recp),
+    list(lm_spec, rf_spec))
 
-diamonds_wf
+diamonds_set
 
 ```
 
 Let's fit the two models we prepared for the data. First code block contains linear regression model and the second contains the random_forest model.
 
-1.  Linear Regression model
+```{r}
+doParallel::registerDoParallel()
 
-```{r lm_rs}
-# Linear regression
-glm_rs <- diamonds_wf %>% 
-  add_model(lm_spec) %>% 
-  fit_resamples(
-    resamples = diamonds_folds,
-    control = control_resamples(save_pred = TRUE)
+diamonds_rs <- 
+  workflow_map(
+    diamonds_set,
+    "fit_resamples",
+    resamples = diamonds_folds
   )
+diamonds_rs
+```
 
-glm_rs
+### Evaluating a model
+
+We can evaluate model by using `autoplot` and `collect_metrics` functions.
+
+```{r}
+autoplot(diamonds_rs)
+```
+
+In the plot it seems that the difference between the `rand_forest` and `linear_reg` is very high but when we look at the metrics table we realise it's not that much.
+
+
+```{r}
+collect_metrics(diamonds_rs)
+```
+
+From the metrics table we can see that `recipe_1_rand_forest` seems to perform the best.
+
+```{r}
+final_fit <-
+  extract_workflow(diamonds_rs, "recipe_1_rand_forest") %>%
+  fit(diamonds_train)
+
+
+ranger_model <- pull_workflow_fit(final_fit)
+ranger_model
 
 ```
 
-2.  Random Forest model
+Let's fit the test set to the model.
 
-```{r rf_rs}
+```{r}
+final_predic <- predict(object = final_fit,
+                        new_data = diamonds_test)
 
-rf_rs <- diamonds_wf %>% 
-  add_model(rf_spec) %>% 
-  fit_resamples(
-    resamples = diamonds_folds,
-    control = control_resamples(save_pred = TRUE)
-  )
-
-rf_rs
-
+final_predic
 ```
 
-We have fit out training data to the models.
 
-## Evaluating models
 
-Now let's check the results and how well they performed.
-
-```{r glm_metics}
-# Linear regression model
-collect_metrics(glm_rs)
-
-```
-
-```{r rf_metrics}
-
-# Random Forest model
-collect_metrics(rf_rs)
-
-```
-
-Both of the models have high accuracy but I prefer **Random Forest Model** as it is preferred when there are more nominal and ordinal data points.
