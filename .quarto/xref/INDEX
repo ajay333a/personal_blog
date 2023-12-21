@@ -34,5 +34,9 @@
   "posts/diamonds_ml/ml_diamonds.qmd": {
     "ml_diamonds.html": "15cddaf2",
     "ml_diamonds.docx": "9cbec220"
+  },
+  "posts/cyclist_trip_analysis/cyclist_bike_202207_202306.qmd": {
+    "cyclist_bike_202207_202306.html": "65bb56f3",
+    "cyclist_bike_202207_202306.docx": "6a78730a"
   }
 }

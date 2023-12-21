@@ -217,8 +217,7 @@ penguin_final$.workflow[[1]] %>%
 ```{r eda_final}
 
 penguins %>% filter(!is.na(sex)) %>% 
-  ggplot(aes(bill_depth_mm, bill_length_mm, color = sex,
-             size = body_mass_g)) +
+  ggplot(aes(bill_depth_mm, bill_length_mm, color = sex)) +
   geom_point(alpha = 0.5) +
   facet_wrap(~species) +
   theme_minimal()

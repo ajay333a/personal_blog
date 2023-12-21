@@ -84,48 +84,52 @@ trpdata_june_2023 <- read_csv("F:/Data_Sci/Cap_Stone_Project/Cyclist_trip_data/2
 
 As structure of `.csv`'s is same across the all the files lets combine all the `.csv` files into a single data frame which contains data of all 12 months.
 
--   **Combining all the monthly data to one previous year data(`data_one_year`).**
+-   **Combining all the monthly data to one previous year data(`data_one_year_raw`).**
 
 ```{r combining data}
-data_one_year <- rbind(trpdata_july_2022, trpdata_aug_2022,
+data_one_year_raw <- rbind(trpdata_july_2022, trpdata_aug_2022,
                      trpdata_sept_2022, trpdata_oct_2022,
                      trpdata_nov_2022, trpdata_dec_2022,
                      trpdata_jan_2023, trpdata_feb_2023,
                      trpdata_mar_2023, trpdata_apr_2023,
                      trpdata_may_2023, trpdata_june_2023)
 
-glimpse(data_one_year)
+glimpse(data_one_year_raw)
+
 ```
 
--   `data_one_year` data frame contains data from July-2022 to June-2023.
+-   `data_one_year_raw` data frame contains data from the month of July-2022 to June-2023.
 
 ### Cleaning the data
 
--   Checking and counting "NA" in each column of the data frame. Data is much better without "NA" as they can cause problems while aggregating data and calculating averages and sums.
+-   Checking and counting "NA" in each column of the data frame. Data is much better without "NA" as they can cause problems while aggregating data and calculating averages and sums. We can use `map` function to perform a function to all of the columns.
 
 ```{r na_count}
-na_in_cols <- data_one_year %>% map(is.na) %>% map(sum) %>% unlist()
+na_in_cols <- data_one_year_raw %>% map(is.na) %>% map(sum) %>% unlist()
 
 na_in_cols
 ```
 
--   As NA's are not present in the times columns i.e, `started_at` and `ended_at` we don't need to worry ourselves about writing `na.rm` during aggregation and manipulation of data.
+-   As NA's are not present in the times columns i.e, `started_at` and `ended_at` we don't need to worry ourselves about writing `na.rm` during aggregation and manipulation of data but it is a good practice to do so.
 
--   Finding the length of rides by making a new column `ride_length` in minutes and making sure that the `ride_length` is not negative by using `if_else` function. Eliminating stations where station names and longitude and latitude co-ordinates are not present.
+-   Finding the length or duration of the rides by making a new column `ride_length` in minutes and making sure that the `ride_length` is not negative by using `if_else` function. Eliminating stations where station names and longitude and latitude co-ordinates are not present.
 
 ```{r finding ride length}
 
-# As we remove all the NA's it is better to save data in a variable.
-data_one_year_raw <- data_one_year %>% 
+# As we remove all the NA's it is better to save the data as "data_one_year".
+data_one_year <- data_one_year_raw %>% 
   mutate(ride_length = difftime(ended_at, started_at,
                                 units = "min")) %>%
   mutate(ride_length = as.numeric(ride_length))
 
-data_one_year <- data_one_year_raw %>% 
+data_one_year <- data_one_year %>%
   mutate(ride_length = if_else(ride_length < 0, 0, ride_length)) %>% 
-  filter(start_station_name != "" & end_station_name != "" & 
+  filter(ride_length >= 2,
+         start_station_name != "" & end_station_name != "" & 
          !is.na(start_lat) & !is.na(start_lng) &
-         !is.na(end_lat) & !is.na(end_lng)) %>% arrange(ride_length)
+         !is.na(end_lat) & !is.na(end_lng)) %>% arrange(ride_length) %>% 
+  select(ride_id, rideable_type, ride_length,
+         started_at, ended_at, member_casual)
 
 
 glimpse(data_one_year)
@@ -135,7 +139,7 @@ glimpse(data_one_year)
 
 ### Aggregating data by Rider type and Bike type.
 
--   Aggregating data to see **"Average minutes per ride"** grouped by "bike type" and "rider type" after removing rides less than 2 minutes (As rides less than 2 minutes tend to have the same start and stop stations.).
+-   Aggregating data to see **"Average minutes per ride"** grouped by "bike type" and "rider type" after removing rides less than 2 minutes (As rides less than 2 minutes tend to have the same start and stop stations).
 
 ```{r TB-Average minutes per ride}
 #| label: tbl-avg_ride_legnth
@@ -186,12 +190,15 @@ average_ride_by_rideable_type
 
 The above @fig-avg_ride_length clearly shows that members average ride lengths between bike types doesn't differ much for **member** riders but differs with **casual** riders upto **8 minutes**.
 
-::: {.callout-note}
+::: callout-warning
 ## Note
+
 Further down in the analysis "docked_bike" type is dropped as no proper documentation is available in the course.
 :::
 
 ### Analysing data by Time of the year and Ride Length
+
+#### Ride Patterns Across the Weeks and Months of the Year
 
 -   Calculating and visualizing ride patterns in a week for number of rides.
 
@@ -203,8 +210,10 @@ rideable_order <- c("classic_bike", "electric_bike", "docked_bike")
 
 rides_on_days <- data_one_year %>%
   filter(rideable_type != "docked_bike") %>%
-  mutate(month = month(started_at, label = TRUE, abbr = FALSE)) %>% 
-  mutate(rideable_type = factor(rideable_type, levels = rideable_order)) %>% ggplot(aes(wday(started_at, label = TRUE, abbr = FALSE))) + 
+  mutate(month = month(started_at, label = TRUE,
+                       abbr = FALSE)) %>% 
+  mutate(rideable_type = factor(rideable_type,
+                                levels = rideable_order)) %>%  ggplot(aes(wday(started_at, label = TRUE, abbr = FALSE))) + 
   geom_bar(aes(fill = member_casual), position = "dodge") +
   facet_wrap(~month, nrow = 3) + 
   labs(x = "Day of the Week", y = "Number of rides",
@@ -216,14 +225,15 @@ rides_on_days <- data_one_year %>%
         axis.text.x = element_text(angle = 45, hjust = 1),
         plot.title = element_text(size = 18))
 
-rides_on_days
+rides_on_days 
+
 ```
 
 The above @fig-Ride_patterns_in_weekdays clearly shows how the number of rides change due to seasons. In winters the number of rides decrease very drastically may be because of temperature and snow. In Summers the number of rides are at its peak.
 
 The number of rides driven by **member** riders are increases through the week especially in working week days but for casual riders the rides increase in the weekends. The @fig-Ride_patterns_in_weekdays shows number of rides on Saturdays and Sundays by casual members overtake membership riders in the months of July and August.
 
--   Comparing variation in ride lengths of average and total ride lengths by bike type.
+#### Comparing variation in ride lengths of average and total ride lengths by bike type.
 
 Aggregating data for the visualization.
 
@@ -237,7 +247,7 @@ rides_on_days <- data_one_year %>%
             avg_ride_length = mean(ride_length, na.rm = TRUE),
             .by = c(month, day, member_casual))
 
-rides_on_days
+rides_on_days 
 ```
 
 **Let's visualize the aggregated data**
@@ -280,15 +290,47 @@ rides_on_days_len_avg
 
 The **ride length** is varying across months and seasons just as number of rides but **average ride length** is not fluctuating that much across the year.
 
+#### Rides through out the day 
+
+Let's look at when the rides are starting to know at what time of day the rides peak and are at the lowest.
+
+```{r rides through time of the day}
+
+rides_on_time_of_day <- data_one_year %>%
+  mutate(time_of_day = format(as.POSIXct(ended_at), "%H"),
+         wk_day = wday(started_at, label = TRUE, abbr = FALSE)) %>% 
+  summarise(ride_id = n(),
+            .by = c(time_of_day, member_casual))
+
+rides_on_time_of_day %>%
+  ggplot(aes(time_of_day, ride_id, fill = ride_id )) +
+  geom_col() +
+  labs(x = "Hour of the day", y = "Number of Rides",
+       fill = "Max Rides") +
+  facet_wrap(~member_casual, ncol = 1) +
+  scale_y_continuous(
+  labels = scales::number_format(scale = 1e-3, suffix = "K")) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+```
+-   Most of the rides start at 5:00 PM in the evening showing **most of the rides begin after office hours** for both `caual` and `member` riders but members peak twice at 8:00 AM and 5:00 PM but the casual riders peak only once at 5:00 PM.
+
 ### Analysing of Stations and Routes.
 
 -   Removing "NA" and blanks from the stations columns.
 
 ```{r Removing NA & blanks}
-data_one_year <- data_one_year %>%
+data_one_year <- data_one_year_raw %>%
+  mutate(ride_length = difftime(ended_at, started_at,
+                                units = "min")) %>%
+  mutate(ride_length = as.numeric(ride_length)) %>% 
+  mutate(ride_length = if_else(ride_length < 0, 0, ride_length)) %>% 
+  filter(ride_length >= 2) %>% 
   drop_na(start_station_name, end_station_name ) %>% 
   filter(start_station_name != "" & end_station_name != "",
-         started_at != ended_at) 
+         started_at != ended_at)
 
 glimpse(data_one_year)
 
@@ -384,7 +426,7 @@ prop_na
 
 ```
 
--   `r prop_na*100`% of data in `start_station_name` is missing and good thing is that none of the `start_lng` and `start_lat` have any NA's and we can use this for find the most traveled routes.
+-   `r round(prop_na*100, 2)`% of data in `start_station_name` is missing and good thing is that none of the `start_lng` and `start_lat` have any NA's and we can use this for find the most traveled routes.
 
 ```{r na_data}
 data_na_one_year <- data_one_year_raw %>% 
@@ -422,12 +464,11 @@ most_travelled_na_routes
 sum(most_travelled_na_routes["ride_count"])
 
 ```
+
 -   **10928** rides are not small when compared to most traveled routes, but 10928 rides in 5 million rides is not that high.
 
-
 ### Conclusions
--   As casual members go for long rides on the weekends offers on weekend rides with membership buying may help attract more memberships and might also make membership riders to make weekend end trips.
 
--   To increase the memberships of the **Cyclist Bike Share** the company needs to place stations where most unknown routes are traveled by the riders.
+-   As casual members go for long rides on the weekends, offers on weekend rides with membership buying may help attract more memberships and might also make membership riders to make weekend end trips.
 
-
+-   To increase the memberships of the **Cyclist Bike Share** the company needs to place stations where most new rides are coming up and routes are travelled more.
