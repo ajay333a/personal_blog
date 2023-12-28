@@ -1,5 +1,5 @@
 ---
-title: "Palmer Penguins"
+title: "Predict the sex of the Penguin Species"
 author: "Ajay Shankar A"
 date: "2023-11-21"
 format: 
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, dpi = 200,
 Building a model to predict the sex of three species of penguins of **Palmer Penguins** data.
 
 ::: callout-tip
-This is my first Machine Learning project and I am still learning as of this date. This work is inspired by **Julia Silge** and you can find the original work by her in her [blog](https://juliasilge.com/blog/palmer-penguins/) and would like to thank her for the teachings in [Youtube channel](https://www.youtube.com/@JuliaSilge)
+This is my first Machine Learning project and I am still learning as of this date. This work is inspired by **Julia Silge** and you can find the original work by her in her [blog](https://juliasilge.com/blog/palmer-penguins/) and would like to thank her for the teachings in [Julia Silge -Youtube channel](https://www.youtube.com/@JuliaSilge)
 :::
 
 ## Exploring the data
@@ -61,6 +61,8 @@ penguins_df
 Let's start by loading the `tidymodels` package and splitting our data into training and testing sets.
 
 ```{r loading ML packages}
+#| message: false
+#| warning: false
 
 library(tidymodels)
 set.seed(123)
@@ -164,7 +166,9 @@ collect_metrics(rf_rs)
 
 ```
 
-Let's choose *logistic model* as it is simpler.
+Let's choose *logistic regression model* as it is a simpler model than random forest.
+
+Let's check the confusion matrix for accuracy
 
 ```{r confusion_matrix}
 
@@ -172,7 +176,7 @@ glm_rs %>% conf_mat_resampled()
 
 ```
 
-About the same, which is good. We can also make an ROC curve.
+Now for the `roc` curve which shows us how accurate a model is.
 
 ```{r roc_curve}
 
