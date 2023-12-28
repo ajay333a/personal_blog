@@ -236,7 +236,6 @@ autoplot(diamonds_rs)
 
 In the plot it seems that the difference between the `rand_forest` and `linear_reg` is very high but when we look at the metrics table we realise it's not that much.
 
-
 ```{r}
 collect_metrics(diamonds_rs)
 ```
@@ -262,6 +261,3 @@ final_predic <- predict(object = final_fit,
 
 final_predic
 ```
-
-
-
