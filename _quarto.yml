@@ -17,9 +17,7 @@ website:
         href: https://twitter.com/ajay333a
 format:
   html:
-    theme:
-      light: cosmo
-      dark: darkly
+    theme: darkly
     css: styles.css
 
 editor: visual
