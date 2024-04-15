@@ -290,7 +290,7 @@ rides_on_days_len_avg
 
 The **ride length** is varying across months and seasons just as number of rides but **average ride length** is not fluctuating that much across the year.
 
-#### Rides through out the day 
+#### Rides through out the day
 
 Let's look at when the rides are starting to know at what time of day the rides peak and are at the lowest.
 
@@ -315,6 +315,7 @@ rides_on_time_of_day %>%
 
 
 ```
+
 -   Most of the rides start at 5:00 PM in the evening showing **most of the rides begin after office hours** for both `caual` and `member` riders but members peak twice at 8:00 AM and 5:00 PM but the casual riders peak only once at 5:00 PM.
 
 ### Analysing of Stations and Routes.
