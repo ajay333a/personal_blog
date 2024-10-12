@@ -2,9 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/meds_analysis/Medicines_usage_sideeffects.html",
+      "/posts/why_ds/why_data_science.html",
+      "/posts/cyclist_trip_analysis/cyclist_bike_202207_202306.html",
       "/posts/diamonds_ml/ml_diamonds.html",
       "/posts/palmer_penguins_ml/palmerpenguins_ml.html",
-      "/posts/cyclist_trip_analysis/cyclist_bike_202207_202306.html",
       "/posts/data_analysis_for-thesis/data_treatment_effect.html"
     ]
   }

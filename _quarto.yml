@@ -17,10 +17,12 @@ website:
         href: https://twitter.com/ajay333a
 format:
   html:
-    theme:
-      light: cosmo
-      dark: darkly
+    theme: darkly
     css: styles.css
+toc: true
+toc-depth: 3
+number-sections: TRUE
+number-depth: 3
 
 editor: visual
 
