@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ajay333a.quarto.pub/ajay333a/posts/palmer_penguins_ml/palmerpenguins_ml.html</loc>
-    <lastmod>2024-01-07T13:01:40.124Z</lastmod>
+    <loc>https://ajay333a.quarto.pub/ajay333a/posts/why_ds/why_data_science.html</loc>
+    <lastmod>2024-04-15T03:51:12.385Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ajay333a.quarto.pub/ajay333a/posts/meds_analysis/Medicines_usage_sideeffects.html</loc>
+    <lastmod>2024-10-10T14:24:24.673Z</lastmod>
   </url>
   <url>
     <loc>https://ajay333a.quarto.pub/ajay333a/posts/data_analysis_for-thesis/data_treatment_effect.html</loc>
-    <lastmod>2024-01-07T13:01:31.818Z</lastmod>
+    <lastmod>2023-12-12T14:39:18.409Z</lastmod>
   </url>
   <url>
     <loc>https://ajay333a.quarto.pub/ajay333a/index.html</loc>
-    <lastmod>2024-01-07T13:01:21.274Z</lastmod>
+    <lastmod>2023-12-22T13:39:14.727Z</lastmod>
   </url>
   <url>
     <loc>https://ajay333a.quarto.pub/ajay333a/about.html</loc>
-    <lastmod>2024-01-07T13:01:19.495Z</lastmod>
+    <lastmod>2024-04-15T03:45:51.222Z</lastmod>
   </url>
   <url>
     <loc>https://ajay333a.quarto.pub/ajay333a/posts/cyclist_trip_analysis/cyclist_bike_202207_202306.html</loc>
-    <lastmod>2024-01-07T13:01:27.400Z</lastmod>
+    <lastmod>2024-10-10T14:24:26.527Z</lastmod>
   </url>
   <url>
     <loc>https://ajay333a.quarto.pub/ajay333a/posts/diamonds_ml/ml_diamonds.html</loc>
-    <lastmod>2024-01-07T13:01:36.643Z</lastmod>
+    <lastmod>2023-12-28T14:41:54.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ajay333a.quarto.pub/ajay333a/posts/palmer_penguins_ml/palmerpenguins_ml.html</loc>
+    <lastmod>2024-07-08T16:20:54.246Z</lastmod>
   </url>
 </urlset>

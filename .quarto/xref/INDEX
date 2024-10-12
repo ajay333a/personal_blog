@@ -42,5 +42,15 @@
   "posts/credit_score_analysis/cred_analysis_ml.qmd": {
     "cred_analysis_ml.html": "e8135ef2",
     "cred_analysis_ml.docx": "6cc7e1c9"
+  },
+  "posts/why_ds/why_data_science.qmd": {
+    "why_data_science.html": "2915d567",
+    "why_data_science.docx": "1007704b"
+  },
+  "posts/meds_analysis/Medicines_usage_sideeffects.qmd": {
+    "Medicines_usage_sideeffects.html": "639c1424"
+  },
+  "posts/cyclist_trip_analysis/cyclist_bike_202207_202306.rmarkdown": {
+    "cyclist_bike_202207_202306.html": "2b1f7270"
   }
 }

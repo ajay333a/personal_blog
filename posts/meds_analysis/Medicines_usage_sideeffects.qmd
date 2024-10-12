@@ -1,0 +1,409 @@
+---
+title: "Medicines Side-effects and their Substitutes"
+author: "Ajay A"
+date: "2024-10-10"
+format:
+  html:
+    code-overflow: wrap
+    code-tools: TRUE
+    code-fold: show
+categories: [Analysis, Code, EDA]
+---
+
+This dataset contains comprehensive information on over 248,000 medical drugs from all manufacturers available worldwide. The data includes details such as drug names, active ingredients, therapeutic uses, dosage, side effects, and substitutes. The dataset aims to provide a useful resource for medical researchers, healthcare professionals, and drug manufacturers.
+
+## Importing Libraries
+
+For data manipulation and tidying up data `tidyverse` package in `R` has always been best. `tidyverse` is a collection of packages of `R` such as
+
+-   `dplyr` and `tidyr` for manipulating data
+-   `ggplot2` for visualizing and rendering plots
+-   `lubridate` for dealing with dates and time series
+-   `forcats` for factoring of data
+-   `readr` for importing, reading, writing different file formats
+
+Lets import the libraries
+
+```{r}
+#| label: loading libraries
+#| message: true
+
+library(tidyverse)
+
+```
+
+## Importing data
+
+```{r}
+#| label: importing data
+#| message: false
+
+med_data <- read_csv("F:/r_language/quarto/blog/Data/250k Medicines Usage, Side Effects and Substitutes.csv",
+  guess_max = 30000) #guess_max function is used to correctly guess the type of the columns
+
+```
+
+We imported the `.csv` file and we can see there are a total of **248218 rows** and **58 columns** in which 1 column is `integer(dbl)` 57 columns are classifies as `character(chr)` . The function `guess_max` makes sure that column type is identified correctly in the data.
+
+### Glancing data
+
+Now lets take a sneak peek into the data.
+
+```{r}
+#| label: data sneakpeek
+
+med_data %>% glimpse()
+
+# finding rows and columns of data
+med_data %>% dim()
+
+```
+
+A total of `{r} nrow(med_data)` rows are present with `{r} ncol(med_data)` columns in which the
+
+-   `id` is a number that can act as a primary key
+-   `name` is the name of the drugs. - `substitute0` to `substitue4` are alternate drugs to the drug in 2nd column that has the same use. - `sideEffect0` to `sideEffect41` are side-effects caused by the drug - `use0` to `use4` are what drug can be used to cure
+-   `Chemical Class` is the chemical group of the medicine
+-   `Habit Forming` is if a drug is addictive or not
+-   `Therapeutic Class` is about how a drug is intended to work
+-   `Action Class` is categorization a drug works in the system
+
+## Cleaning the data
+
+We can't be sure that all the data in the columns is without any excess spaces and wrongly indented commas or brackets.
+
+```{r}
+#| label: lower casing the data
+
+# converting all the columns of character to lower case letters
+med_data <- med_data %>%
+  rename_with(~gsub(" ", "_", tolower(.x))) %>% 
+  mutate(across(where(is_character), ~tolower(.))) %>% 
+  mutate(across(where(is_character), ~trimws(.)))
+
+# replacing all the '{' with '(' and '}' with ')'
+
+med_data <- med_data %>% 
+  mutate(chemical_class = str_replace_all(chemical_class, "\\{", "\\("),
+         chemical_class = str_replace_all(chemical_class, "\\}", "\\)"))
+
+```
+
+### Finding `NA`s and Dulicates
+
+Lets look at `NA`s in the data and the duplicates
+
+```{r}
+#| label: NA count and duplicates
+
+# finding NA's in each columns
+med_data %>% map(~sum(is.na(.))) %>% unlist()
+
+# finding duplicates
+duplicated(med_data) %>% sum()
+
+```
+
+There are no duplicated values but there are so many `NA`s which is not helpful. Only 5 columns i.e., `id`, `name`, `sideEffect0`, `use0`, `Habit Forming` does not have any empty values in the column.
+
+### Finding unique values
+
+Even though there no "NA"s in `id` and `name` of the drug lets make sure there are no duplicates
+
+```{r}
+#| label: counting distinct values
+
+# counting unique values in each column
+med_data %>% map(n_distinct) %>% unlist()
+
+```
+
+There over 2,48,218 `id`s but 222825 drug names are present at least 24000 names are repeated. Lets check which are repeated.
+
+```{r}
+#| label: finding duplicate drugs
+
+# 
+duplicated_values <- med_data %>% select(-id) %>% duplicated()
+
+duplicated_values %>% sum()
+
+```
+
+Lets remove duplicates from the datafame and create a dataset with unique values.
+
+```{r}
+#| label: removing duplicates
+
+# using filter function to remove duplicates
+med_data_unique <- med_data %>% filter(!duplicated(select(., -id)))
+
+dim(med_data_unique)
+
+```
+
+## Data Manipulation
+
+### Pivoting Data
+
+For machines longer format data is much more readable and workable than wider format and we can drop `NA`s in the columns much more easily, without loosing data but it also comes at a cost while longer format data is easy for machines to read but very difficult for humans to comprehend and the number of rows can increase to very high numbers to a point that it's not worth it.
+
+We can pivot data and make the wide data format into narrow data format and make it more accessible to manipulate.
+
+```{r}
+#|label: pivoting_substitute_drug
+
+# pivoting data
+med_data_sub <- med_data_unique %>% select(id:substitute4, use0:use4) %>% 
+  pivot_longer(cols = starts_with("substitute"),
+               names_to = "sub_num",
+               values_to = "substitute_drug")
+# counting NA's
+med_data_sub %>% map(~sum(is.na(.))) %>% unlist()
+
+glimpse(med_data_sub)
+```
+
+As you can see the data only has 9 columns and 1241090 rows.
+
+Now lets pivot the `use` of the drugs so that we can make the data more tidy which helps with removing of the duplicates and the `NA` values easily.
+
+```{r}
+#| label: pivoting_use
+
+# pivoting data 
+medi_use_pivot <- 
+  med_data_sub %>% select(-sub_num) %>% 
+  pivot_longer(cols = starts_with("use"),
+               names_to = "use_num",
+               values_to = "use") %>% 
+  select(-use_num) %>% filter(!is.na(use))
+
+# checking for NA values
+medi_use_pivot %>% map(~sum(is.na(.))) %>% unlist()
+
+# checking for duplicates
+medi_use_pivot %>% duplicated() %>% sum()
+
+# removing duplicated data
+med_use <- medi_use_pivot %>% filter(!duplicated(.))
+
+# glimpse of data
+glimpse(med_use)
+```
+
+We can use pivot method for `sideEffect`s to convert the data into a longer format. I am doing this case by case and not all in a single table because that would cause very long tables and a lot of `NA`s which would be hard to filter and we can join different tables using `*_join` functions with `id` column as it can act as a primary key.
+
+```{r}
+#| label: side-effect_pivot
+
+# pivoting data with side-effect columns
+
+side_effect_med <- 
+  med_data_unique %>% select(id, name, sideeffect0:sideeffect41) %>%
+  pivot_longer(cols = starts_with("sideeffect"),
+               names_to = "sideeffect_num",
+               values_to = "side_effects") %>% 
+  select(-sideeffect_num)
+
+# counting NA and duplicates
+side_effect_med %>% map(~sum(is.na(.))) %>% unlist
+
+# dropping NA's and duplicates
+side_effect_med <- side_effect_med %>% drop_na() %>% 
+  filter(!duplicated(.))
+
+# finding duplicates
+duplicated(side_effect_med) %>% sum()
+
+glimpse(side_effect_med)
+  
+```
+
+Now lets use pivoted data to plot graphs
+
+## Visualising with `ggplot2`
+
+`ggplot2` is one of the most versatile packages I have come across for the purpose of visualizing using **Grammar of Graphics**
+
+### Bar plots
+
+Let's find out and plot to which class most of the drugs in data belong to.
+
+```{r}
+#| label: common_drug_classes
+#| fig-cap: Most common drug classes
+#| fig-width: 10
+
+chem_cl_top_10 <-  
+  med_data_unique %>% select(name, chemical_class) %>% 
+  count(chemical_class) %>% rename("number_of_meds" = n) %>% 
+  slice_max(number_of_meds, n=10) %>%
+  filter(chemical_class != "NA") %>% 
+  mutate(chemical_class = str_to_sentence(chemical_class))
+
+chem_cl_top_10 %>% 
+  ggplot(aes(x = fct_reorder(chemical_class, number_of_meds),
+             y = number_of_meds)) +
+  geom_col(aes(fill = chemical_class)) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.y = element_text(size = 10)) +
+  labs(x = "Chemical Class", y= "Number of Medicines",
+       title = "Most Common Chemical Class"
+       ) +
+  theme(plot.title = element_text(size = 20)) +
+  scale_fill_brewer(palette = "Set1") + coord_flip()
+  
+
+```
+
+By the graph we know that most of the drugs in data belong to the chemical class `{r} chem_cl_top_10[1,1]` with `{r} chem_cl_top_10[1,2]` drugs belong to that class, followed by `{r} chem_cl_top_10[2,1]` with `{r} chem_cl_top_10[2,2]` followed by `{r} chem_cl_top_10[3,1]`, `{r} chem_cl_top_10[4, 1]` and `{r} chem_cl_top_10[5, 1]`.
+
+Now, that we have some basic idea of the data lets answer some questions
+
+## Finding Answers to Specific Questions
+
+Now, that we have some basic idea of the data lets answer some questions
+
+Lets begin with simple ones
+
+### Addictive drugs
+
+Lets find the most addictive drugs in the data set and to which chemical class they belong to.
+
+```{r}
+#| label: addictive drugs
+
+habit_forming_classes <- 
+  med_data_unique %>% filter(habit_forming == "yes") %>% 
+  select(name, chemical_class) %>%
+  count(chemical_class, sort = TRUE)
+
+habit_forming_classes
+```
+
+We can see in the table that `{r} habit_forming_classes[1,2]` drugs which are addictive does not have their class mentioned, while `{r} habit_forming_classes[2,1]` have `{r} habit_forming_classes[2,2]` drugs which are habit forming.
+
+### No Substitute Drugs
+
+Find the drugs with no substitute drugs, that have less side-effects, is not habit forming, and has many uses
+
+```{r}
+#| label: no substitute drug
+
+med_data_unique %>%
+  # finding drugs with no sbustitute
+  filter(if_all(substitute0:substitute4, is.na) &
+         # medicine with no one side-effect
+         if_all(sideeffect1:sideeffect41, is.na) &
+           sideeffect0 == "no common side effects seen" &
+         # Medicine with most uses
+         if_all(use0:use2, ~!is.na(.)) &
+         # not habit forming
+         habit_forming == "no" &
+         # Chemical Class, therapeutic class,action class is known
+         !is.na(chemical_class) &
+         !is.na(therapeutic_class) &
+         !is.na(action_class)) %>% 
+  head()
+
+```
+
+Among the `{r} nrow(med_data_unique)` drugs only **Betoform Dental Gel** is the drug with No known side-effects, no alternate drugs, is not habit forming and has a known *Chemical Class*.
+
+### Most Popular Drug form
+
+Lets find the most common type of form i.e, Tablet, Tonic, etc. in the data set.
+
+```{r}
+#| label: medicine name
+
+med_data_unique[2,2]
+```
+
+The medicine name in the end contains its form but it might not be true for all so lets do a string search so that the for is detected correctly in which it is sold or consumed if we extract it into a separate column we can know the most popular type.
+
+Making a new dataframe by detecting strings of the column `name`
+
+```{r}
+#| label: medicine form
+
+med_form_df <- 
+  med_data_unique %>%
+  select(name) %>%
+  mutate(med_type = case_when(
+    # searching for specific type of medicine and making it a column
+    str_detect(name, "tablet") ~ "tablet",
+    str_detect(name, "capsule") ~ "capsule",
+    str_detect(name, "syrup") ~ "syrup",
+    str_detect(name, "oral suspension") ~ "oral suspension",
+    str_detect(name, "suspension") ~ "suspension",
+    str_detect(name, "cream|lotion") ~ "cream",
+    str_detect(name, ".*gel") ~ "gel",
+    str_detect(name, "drop|drops") ~ "drop",
+    str_detect(name, "bar|bars") ~ "bar",
+    str_detect(name, "solution|solutions") ~ "solution",
+    str_detect(name, ".*cap|.*caps") ~ "caps",
+    str_detect(name, "infusion") ~ "infusion",
+    str_detect(name, "injection") ~ "injection",
+    str_detect(name, "granules") ~ "granules",
+    TRUE ~ "others"
+  )) %>%
+  filter(!is.na(med_type)) %>%
+  count(med_type, sort = TRUE)
+
+med_form_df
+
+```
+
+As we can see that ***Tablets*** is the most common form with `{r} med_form_df[1,2]` followed by ***Injection*** with `{r} med_form_df[2,2]`, ***Capsules*** and ***Syrups*** take third and fourth place respectively.
+
+### Most Common Side-Effects
+
+This is where pivoting data comes to the use, we cannot find the most common side-effect as there are 42 columns of them with NAs in the middle which gets complicated. By pivoting data to longer format we make each side-effect has its own row which leads to removal of NA easily.
+
+```{r}
+#| label: common side-effects
+#| fig-cap: Most Common Side-effects
+#| fig-width: 10
+
+side_effect_med %>% 
+  filter(side_effects != "no common side effects seen") %>%
+  count(side_effects, sort = TRUE) %>%  
+  slice_max(n, n = 10) %>% 
+  mutate(side_effects = str_to_title(side_effects)) %>% 
+  ggplot(aes(x = fct_reorder(side_effects, n), y = n)) +
+  geom_col(aes(fill = n)) +
+  scale_y_continuous(
+    labels = scales::number_format(scale = 1e-3, suffix = "K")
+  ) +
+  labs(x = "Side-effects", y = "Frequency", 
+       title = "Most Common Side-effects") +
+  theme(legend.position = "none")
+```
+
+### Action class with most unique Side-effects
+
+Lets find which `action_class` has most unique side-effects in the data
+
+```{r}
+#| label: action_class side-effects
+
+action_class_sideeffects <-
+  med_data_unique %>% select(name, sideeffect0:sideeffect41,
+                           action_class) %>% 
+  pivot_longer(cols = sideeffect0:sideeffect41,
+               names_to = "sideeffect_num",
+               values_to = "side_effect") %>%
+  # removing medicine name and sideeffect_num
+  select(-sideeffect_num, -name) %>%
+  # removing duplicates so that only unique side-effect & action_class remain
+  filter(!duplicated(.))
+  
+action_class_sideeffects %>% count(action_class, sort = TRUE) %>% 
+  drop_na() %>% slice_max(n = 10, n)
+
+```
+
+Drugs with **Glucocorticoids** have 88 unique side-effects, followed by **Tyrosine Kinase Inhibitors** with 79 , **Vitamins** and **Anticancer-others** come next.

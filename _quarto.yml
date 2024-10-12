@@ -19,6 +19,10 @@ format:
   html:
     theme: darkly
     css: styles.css
+toc: true
+toc-depth: 3
+number-sections: TRUE
+number-depth: 3
 
 editor: visual
 
