@@ -186,7 +186,7 @@ glm_rs %>%
   roc_curve(sex, .pred_female) %>%
   ggplot(aes(1 - specificity, sensitivity, color = id)) +
   geom_abline(lty = 2, color = "gray80", size = 1.5) +
-  geom_path(show.legend = FALSE, alpha = 0.6, size = 1.2) +
+  geom_path(show.legend = FALSE, alpha = 0.6, linewidth = 1.2) +
   coord_equal()
 
 ```
