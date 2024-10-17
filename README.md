@@ -1,6 +1,6 @@
 # Blog for Analytics Projects
 
--   This blog is written by me(Ajay) to showcase projects coded in **R** using **Quarto** to publish at [blog](https://ajay333a.quarto.pub/ajay333a/).
+-   This blog is written by me(Ajay) to showcase projects coded in **R** using **Quarto** to publish at [https://ajay333a.quarto.pub/ajay333a/](https://ajay333a.quarto.pub/ajay333a/).
 
 ## Contents
 
