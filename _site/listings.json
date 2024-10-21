@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/iris_ML/iris_ml_classification.html",
       "/posts/meds_analysis/Medicines_usage_sideeffects.html",
       "/posts/why_ds/why_data_science.html",
       "/posts/cyclist_trip_analysis/cyclist_bike_202207_202306.html",

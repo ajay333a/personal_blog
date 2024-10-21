@@ -1,0 +1,304 @@
+---
+title: "Iris ML classification"
+author: "Ajay A"
+date: "10-21-2024"
+format: 
+  html: default
+  docx: default
+categories: [Machine Learning, Random Forest, KNN, EDA]
+---
+
+# Predicting the Species of Iris with Machine Learning
+
+## Introduction
+
+This is the "Iris" dataset. Originally published at UCI Machine Learning Repository: Iris Data Set, this small dataset from 1936 is often used for testing out machine learning algorithms and visualizations (for example, Scatter Plot). Each row of the table represents an iris flower, including its species and dimensions of its botanical parts, sepal and petal, in centimeters.
+
+Iris data set is used widely as an example in field of data sciences and widely available to both `python` and `R` users.
+
+## Importing Libraries
+
+Let's load the required packages
+
+```{r}
+#| label: importing libraries
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(patchwork)
+
+```
+
+## Importing data
+
+```{r}
+#| label: importing data
+
+iris_data <- read_csv("F:/Data_Sci/Internship Projects/Iris_ML/Iris.csv")
+
+iris_data <-  iris_data %>% janitor::clean_names() %>%
+  mutate(species = str_replace_all(species,"Iris-", "")) %>% 
+  mutate(species = as.factor(species))
+
+glimpse(iris_data)
+
+```
+
+We have features like `sepal_length_cm`, `sepal_width_cm`, `petal_length_cm` and `petal_width_cm` and `species` necessary for the classification of the species.
+
+First, check for `NA` in the data.
+
+```{r}
+#| label: NA check
+
+iris_data %>% map(~sum(is.na(.)))
+```
+
+There no NA which is really good for the data.
+
+## Analysisng data
+
+Let's visualize the data with above parameters
+
+```{r}
+#| label: fig-iris_parameters
+#| fig-cap: "Difference in observed parameters between species"
+#| fig-width: 9
+#| fig-height: 5
+
+plot_iris <- function(param){
+  iris_data %>% ggplot(aes(species, {{param}})) + 
+    geom_boxplot(aes(color = species)) +
+    theme(legend.position = "none")
+}
+
+(plot_iris(sepal_length_cm) +  plot_iris(petal_length_cm))/
+(plot_iris(sepal_width_cm) + plot_iris(petal_width_cm))
+
+```
+
+There is quite a difference between the species in all parameters "setosa" \< "versicolor" \< "virginica" except for `sepal_width_cm` where "versicolor" \< "virginica" \< "setosa"
+
+## Building a model
+
+Let’s start by loading the `tidymodels` package and splitting our data into training and testing sets.
+
+```{r}
+#| label: loading libraries
+#| warning: false
+#| message: false
+
+library(tidymodels)
+set.seed(2024)
+
+iris_split <- initial_split(iris_data, prop = 0.8)
+
+iris_train <- training(iris_split)
+iris_test <- testing(iris_split)
+
+```
+
+Data is not large enough to build a model so creating resamples of the data to evaluate the model
+
+```{r}
+#| label: resampling
+#| warning: false
+#| message: false
+
+
+set.seed(2025)
+
+iris_boot <- bootstraps(iris_train, times = 5)
+
+iris_boot
+```
+
+Let’s build 2 models and check which is better for the data.
+
+### Random Forest Model
+
+```{r}
+#| label: random_forest_mod
+
+# random forest model
+
+rf_spec <- rand_forest() %>% 
+  set_mode("classification") %>% 
+  set_engine("ranger")
+
+rf_spec
+
+```
+
+### **K - nearest neighbors** model
+
+```{r}
+#| label: knn_mod
+
+knn_spec <- nearest_neighbor(neighbors = 5) %>% 
+  set_mode("classification") %>% 
+  set_engine("kknn")
+
+knn_spec
+```
+
+### Setting `workflow()`
+
+Next let’s start putting together a tidymodels `workflow()`, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks. Notice that there is no model yet: `Model: None`
+
+```{r}
+#| label:  work_flow
+
+iris_wf <- workflow() %>% 
+  add_formula(species ~ .)
+
+iris_wf
+```
+
+### Fitting the model
+
+Now we can add a model and fit the model to each of the resamples. First, we can fit the `randomforest` model
+
+```{r}
+#| label: rf_model_results
+
+rf_rs <- iris_wf %>% 
+  add_model(rf_spec) %>% 
+  fit_resamples(
+    resamples = iris_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+rf_rs
+
+```
+
+Now we can add a model and fit the model to each of the resamples. First, we can fit the `knn` model
+
+```{r}
+#| label: knn_model_results
+
+knn_rs <- iris_wf %>% 
+  add_model(knn_spec) %>% 
+  fit_resamples(
+    resamples = iris_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+knn_rs
+```
+
+## Evaluating the model
+
+### Evaluating Random Forest model
+
+`collect_metrics` function collect the necessary parameters for evaluation
+
+```{r}
+#| label:  random_forest_model_metrics
+
+collect_metrics(rf_rs)
+
+collect_predictions(rf_rs) %>% glimpse()
+
+```
+
+### Evaluating K-nearest neighbor model
+
+```{r}
+#| label:  k_nearest_neighbor_model_metrics
+
+collect_metrics(knn_rs)
+
+collect_predictions(rf_rs) %>% glimpse()
+
+```
+
+As we can see that `random_forest` model has higher accuracy than `knn` model
+
+Confusion matrix lets us know how accurate the model is predicting the values
+
+```{r}
+#| label: confusion_matrix
+
+
+rf_rs %>% conf_mat_resampled()
+
+```
+
+Now for the `roc` curve which shows us how accurate a model is for different species in the data.
+
+```{r}
+#| label: roc_plot_random_forest
+#| fig-cap: "ROC curve for Random Forest Model"
+
+rf_rs %>%
+  collect_predictions() %>%
+  roc_curve(truth = species, .pred_setosa, .pred_versicolor,
+                    .pred_virginica) %>%
+  ggplot(aes(1 - specificity, sensitivity, color = .level)) +
+  geom_abline(lty = 2, color = "gray80", linewidth = 1.5) +
+  geom_path(show.legend = TRUE, alpha = 0.6, linewidth = 1.2) +
+  coord_equal() + 
+  labs(title = "ROC Curve for Random Forest Classification",
+       color = "Class")
+
+```
+
+When we compare the same to the "KNN" model we can see the difference.
+
+```{r}
+#| label: roc_plot_knn
+#| fig-cap: "ROC curve for KNN Model"
+
+knn_rs %>%
+  collect_predictions() %>%
+  roc_curve(truth = species, .pred_setosa, .pred_versicolor,
+                    .pred_virginica) %>%
+  ggplot(aes(1 - specificity, sensitivity, color = .level)) +
+  geom_abline(lty = 2, color = "gray80", linewidth = 1.5) +
+  geom_path(show.legend = TRUE, alpha = 0.6, linewidth = 1.2) +
+  coord_equal() + 
+  labs(title = "ROC Curve for KNN Classification",
+       color = "Class")
+
+```
+
+The "1 - Specificity" drops for the "KNN" model when compared to the "Random Forest" model, so we will use the "Random Forest" model to do predictions.
+
+```{r}
+#| label: final_fit
+
+iris_final <- iris_wf %>%
+  add_model(rf_spec) %>%
+  last_fit(iris_split)
+
+iris_final %>% collect_metrics()
+```
+
+### Predicting Outcomes
+
+Based on the "iris_final" model we can predict the `species` based on the other parameters.
+
+```{r}
+#| label: predicting_species
+
+# Create a new data frame for the measurements
+new_data <- tibble(
+  sepal_length_cm = 4.6,
+  sepal_width_cm = 3.8,
+  petal_length_cm = 1.4,
+  petal_width_cm = 0.2
+)
+
+# Extract the workflow from the last_fit result
+workflow_fit <- iris_final %>% extract_workflow()
+
+# Make predictions using the new data
+predictions <- predict(workflow_fit, new_data)
+
+predictions
+
+
+```
