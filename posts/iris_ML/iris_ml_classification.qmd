@@ -8,7 +8,6 @@ format:
 categories: [Machine Learning, Random Forest, KNN, EDA]
 ---
 
-# Predicting the Species of Iris with Machine Learning
 
 ## Introduction
 

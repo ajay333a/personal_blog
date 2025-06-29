@@ -197,25 +197,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#predicting-the-species-of-iris-with-machine-learning" id="toc-predicting-the-species-of-iris-with-machine-learning" class="nav-link active" data-scroll-target="#predicting-the-species-of-iris-with-machine-learning"><span class="header-section-number">1</span> Predicting the Species of Iris with Machine Learning</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#importing-libraries" id="toc-importing-libraries" class="nav-link" data-scroll-target="#importing-libraries"><span class="header-section-number">2</span> Importing Libraries</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="header-section-number">3</span> Importing data</a></li>
+  <li><a href="#analysisng-data" id="toc-analysisng-data" class="nav-link" data-scroll-target="#analysisng-data"><span class="header-section-number">4</span> Analysisng data</a></li>
+  <li><a href="#building-a-model" id="toc-building-a-model" class="nav-link" data-scroll-target="#building-a-model"><span class="header-section-number">5</span> Building a model</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
-  <li><a href="#importing-libraries" id="toc-importing-libraries" class="nav-link" data-scroll-target="#importing-libraries"><span class="header-section-number">1.2</span> Importing Libraries</a></li>
-  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="header-section-number">1.3</span> Importing data</a></li>
-  <li><a href="#analysisng-data" id="toc-analysisng-data" class="nav-link" data-scroll-target="#analysisng-data"><span class="header-section-number">1.4</span> Analysisng data</a></li>
-  <li><a href="#building-a-model" id="toc-building-a-model" class="nav-link" data-scroll-target="#building-a-model"><span class="header-section-number">1.5</span> Building a model</a>
-  <ul class="collapse">
-  <li><a href="#random-forest-model" id="toc-random-forest-model" class="nav-link" data-scroll-target="#random-forest-model"><span class="header-section-number">1.5.1</span> Random Forest Model</a></li>
-  <li><a href="#k---nearest-neighbors-model" id="toc-k---nearest-neighbors-model" class="nav-link" data-scroll-target="#k---nearest-neighbors-model"><span class="header-section-number">1.5.2</span> <strong>K - nearest neighbors</strong> model</a></li>
-  <li><a href="#setting-workflow" id="toc-setting-workflow" class="nav-link" data-scroll-target="#setting-workflow"><span class="header-section-number">1.5.3</span> Setting <code>workflow()</code></a></li>
-  <li><a href="#fitting-the-model" id="toc-fitting-the-model" class="nav-link" data-scroll-target="#fitting-the-model"><span class="header-section-number">1.5.4</span> Fitting the model</a></li>
+  <li><a href="#random-forest-model" id="toc-random-forest-model" class="nav-link" data-scroll-target="#random-forest-model"><span class="header-section-number">5.1</span> Random Forest Model</a></li>
+  <li><a href="#k---nearest-neighbors-model" id="toc-k---nearest-neighbors-model" class="nav-link" data-scroll-target="#k---nearest-neighbors-model"><span class="header-section-number">5.2</span> <strong>K - nearest neighbors</strong> model</a></li>
+  <li><a href="#setting-workflow" id="toc-setting-workflow" class="nav-link" data-scroll-target="#setting-workflow"><span class="header-section-number">5.3</span> Setting <code>workflow()</code></a></li>
+  <li><a href="#fitting-the-model" id="toc-fitting-the-model" class="nav-link" data-scroll-target="#fitting-the-model"><span class="header-section-number">5.4</span> Fitting the model</a></li>
   </ul></li>
-  <li><a href="#evaluating-the-model" id="toc-evaluating-the-model" class="nav-link" data-scroll-target="#evaluating-the-model"><span class="header-section-number">1.6</span> Evaluating the model</a>
+  <li><a href="#evaluating-the-model" id="toc-evaluating-the-model" class="nav-link" data-scroll-target="#evaluating-the-model"><span class="header-section-number">6</span> Evaluating the model</a>
   <ul class="collapse">
-  <li><a href="#evaluating-random-forest-model" id="toc-evaluating-random-forest-model" class="nav-link" data-scroll-target="#evaluating-random-forest-model"><span class="header-section-number">1.6.1</span> Evaluating Random Forest model</a></li>
-  <li><a href="#evaluating-k-nearest-neighbor-model" id="toc-evaluating-k-nearest-neighbor-model" class="nav-link" data-scroll-target="#evaluating-k-nearest-neighbor-model"><span class="header-section-number">1.6.2</span> Evaluating K-nearest neighbor model</a></li>
-  <li><a href="#predicting-outcomes" id="toc-predicting-outcomes" class="nav-link" data-scroll-target="#predicting-outcomes"><span class="header-section-number">1.6.3</span> Predicting Outcomes</a></li>
-  </ul></li>
+  <li><a href="#evaluating-random-forest-model" id="toc-evaluating-random-forest-model" class="nav-link" data-scroll-target="#evaluating-random-forest-model"><span class="header-section-number">6.1</span> Evaluating Random Forest model</a></li>
+  <li><a href="#evaluating-k-nearest-neighbor-model" id="toc-evaluating-k-nearest-neighbor-model" class="nav-link" data-scroll-target="#evaluating-k-nearest-neighbor-model"><span class="header-section-number">6.2</span> Evaluating K-nearest neighbor model</a></li>
+  <li><a href="#predicting-outcomes" id="toc-predicting-outcomes" class="nav-link" data-scroll-target="#predicting-outcomes"><span class="header-section-number">6.3</span> Predicting Outcomes</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="iris_ml_classification.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
@@ -227,23 +224,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="predicting-the-species-of-iris-with-machine-learning" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Predicting the Species of Iris with Machine Learning</h1>
-<section id="introduction" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
 <p>This is the “Iris” dataset. Originally published at UCI Machine Learning Repository: Iris Data Set, this small dataset from 1936 is often used for testing out machine learning algorithms and visualizations (for example, Scatter Plot). Each row of the table represents an iris flower, including its species and dimensions of its botanical parts, sepal and petal, in centimeters.</p>
 <p>Iris data set is used widely as an example in field of data sciences and widely available to both <code>python</code> and <code>R</code> users.</p>
 </section>
-<section id="importing-libraries" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="importing-libraries"><span class="header-section-number">1.2</span> Importing Libraries</h2>
+<section id="importing-libraries" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="importing-libraries"><span class="header-section-number">2</span> Importing Libraries</h2>
 <p>Let’s load the required packages</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="importing-data" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">1.3</span> Importing data</h2>
+<section id="importing-data" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">3</span> Importing data</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>iris_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"F:/Data_Sci/Internship Projects/Iris_ML/Iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -294,8 +289,8 @@ $species
 </div>
 <p>There no NA which is really good for the data.</p>
 </section>
-<section id="analysisng-data" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="analysisng-data"><span class="header-section-number">1.4</span> Analysisng data</h2>
+<section id="analysisng-data" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="analysisng-data"><span class="header-section-number">4</span> Analysisng data</h2>
 <p>Let’s visualize the data with above parameters</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plot_iris <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
@@ -321,8 +316,8 @@ Figure&nbsp;1: Difference in observed parameters between species
 </div>
 <p>There is quite a difference between the species in all parameters “setosa” &lt; “versicolor” &lt; “virginica” except for <code>sepal_width_cm</code> where “versicolor” &lt; “virginica” &lt; “setosa”</p>
 </section>
-<section id="building-a-model" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="building-a-model"><span class="header-section-number">1.5</span> Building a model</h2>
+<section id="building-a-model" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="building-a-model"><span class="header-section-number">5</span> Building a model</h2>
 <p>Let’s start by loading the <code>tidymodels</code> package and splitting our data into training and testing sets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
@@ -353,8 +348,8 @@ Figure&nbsp;1: Difference in observed parameters between species
 </div>
 </div>
 <p>Let’s build 2 models and check which is better for the data.</p>
-<section id="random-forest-model" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="random-forest-model"><span class="header-section-number">1.5.1</span> Random Forest Model</h3>
+<section id="random-forest-model" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="random-forest-model"><span class="header-section-number">5.1</span> Random Forest Model</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random forest model</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -370,8 +365,8 @@ Computational engine: ranger </code></pre>
 </div>
 </div>
 </section>
-<section id="k---nearest-neighbors-model" class="level3" data-number="1.5.2">
-<h3 data-number="1.5.2" class="anchored" data-anchor-id="k---nearest-neighbors-model"><span class="header-section-number">1.5.2</span> <strong>K - nearest neighbors</strong> model</h3>
+<section id="k---nearest-neighbors-model" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="k---nearest-neighbors-model"><span class="header-section-number">5.2</span> <strong>K - nearest neighbors</strong> model</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>knn_spec <span class="ot">&lt;-</span> <span class="fu">nearest_neighbor</span>(<span class="at">neighbors =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">%&gt;%</span> </span>
@@ -388,8 +383,8 @@ Computational engine: kknn </code></pre>
 </div>
 </div>
 </section>
-<section id="setting-workflow" class="level3" data-number="1.5.3">
-<h3 data-number="1.5.3" class="anchored" data-anchor-id="setting-workflow"><span class="header-section-number">1.5.3</span> Setting <code>workflow()</code></h3>
+<section id="setting-workflow" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="setting-workflow"><span class="header-section-number">5.3</span> Setting <code>workflow()</code></h3>
 <p>Next let’s start putting together a tidymodels <code>workflow()</code>, a helper object to help manage modeling pipelines with pieces that fit together like Lego blocks. Notice that there is no model yet: <code>Model: None</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>iris_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
@@ -406,8 +401,8 @@ species ~ .</code></pre>
 </div>
 </div>
 </section>
-<section id="fitting-the-model" class="level3" data-number="1.5.4">
-<h3 data-number="1.5.4" class="anchored" data-anchor-id="fitting-the-model"><span class="header-section-number">1.5.4</span> Fitting the model</h3>
+<section id="fitting-the-model" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="fitting-the-model"><span class="header-section-number">5.4</span> Fitting the model</h3>
 <p>Now we can add a model and fit the model to each of the resamples. First, we can fit the <code>randomforest</code> model</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rf_rs <span class="ot">&lt;-</span> iris_wf <span class="sc">%&gt;%</span> </span>
@@ -456,10 +451,10 @@ species ~ .</code></pre>
 </div>
 </section>
 </section>
-<section id="evaluating-the-model" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="evaluating-the-model"><span class="header-section-number">1.6</span> Evaluating the model</h2>
-<section id="evaluating-random-forest-model" class="level3" data-number="1.6.1">
-<h3 data-number="1.6.1" class="anchored" data-anchor-id="evaluating-random-forest-model"><span class="header-section-number">1.6.1</span> Evaluating Random Forest model</h3>
+<section id="evaluating-the-model" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="evaluating-the-model"><span class="header-section-number">6</span> Evaluating the model</h2>
+<section id="evaluating-random-forest-model" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="evaluating-random-forest-model"><span class="header-section-number">6.1</span> Evaluating Random Forest model</h3>
 <p><code>collect_metrics</code> function collect the necessary parameters for evaluation</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(rf_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -486,8 +481,8 @@ $ .config          &lt;chr&gt; "Preprocessor1_Model1", "Preprocessor1_Model1", "
 </div>
 </div>
 </section>
-<section id="evaluating-k-nearest-neighbor-model" class="level3" data-number="1.6.2">
-<h3 data-number="1.6.2" class="anchored" data-anchor-id="evaluating-k-nearest-neighbor-model"><span class="header-section-number">1.6.2</span> Evaluating K-nearest neighbor model</h3>
+<section id="evaluating-k-nearest-neighbor-model" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="evaluating-k-nearest-neighbor-model"><span class="header-section-number">6.2</span> Evaluating K-nearest neighbor model</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(knn_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -590,8 +585,8 @@ $ .config          &lt;chr&gt; "Preprocessor1_Model1", "Preprocessor1_Model1", "
 </div>
 </div>
 </section>
-<section id="predicting-outcomes" class="level3" data-number="1.6.3">
-<h3 data-number="1.6.3" class="anchored" data-anchor-id="predicting-outcomes"><span class="header-section-number">1.6.3</span> Predicting Outcomes</h3>
+<section id="predicting-outcomes" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="predicting-outcomes"><span class="header-section-number">6.3</span> Predicting Outcomes</h3>
 <p>Based on the “iris_final” model we can predict the <code>species</code> based on the other parameters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new data frame for the measurements</span></span>
@@ -618,7 +613,6 @@ $ .config          &lt;chr&gt; "Preprocessor1_Model1", "Preprocessor1_Model1", "
 </div>
 
 
-</section>
 </section>
 </section>
 

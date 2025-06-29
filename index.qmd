@@ -15,5 +15,7 @@ title-block-banner: true
 This is a blog for projects completed successfully by me with R-programming language. This blog will include projects from basic "Exploratory Data Analysis(EDA)" to complex "Machine Learning(ML)" projects.
 
 <div>
+
 To find all the other projects using other tools visit my [Data Science Portfolio Website](https://ajay333a.quarto.pub/ajay-shankar-a/)
+
 </div>
